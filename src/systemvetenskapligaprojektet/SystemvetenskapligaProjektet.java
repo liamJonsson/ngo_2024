@@ -19,7 +19,7 @@ public class SystemvetenskapligaProjektet {
     public static void main(String[] args) {
         try{
             idb = new InfDB("ngo_2024","3306","dbAdmin2024","dbAdmin2024PW"); //Namnet på databasen, vilken port,användarnamnet till databasen, lösenordet för användaren
-            new Inloggning().setVisible(true);
+            new Inloggning(idb).setVisible(true);
         }
         catch(InfException ex){ //om någotning går fel i uppkopplingen av databasen så kommer variabeln ex fånga upp de specifika felmeddelandena som finns i infdb-klassen
             System.out.println(ex.getMessage());
