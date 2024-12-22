@@ -43,12 +43,14 @@ public class Inloggning extends javax.swing.JFrame {
 
         lblLosenord.setText("Lösenord");
 
+        tfEPost.setText("ahmed.khan@example.com");
         tfEPost.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfEPostActionPerformed(evt);
             }
         });
 
+        tfLosenord.setText("password789");
         tfLosenord.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfLosenordActionPerformed(evt);
@@ -74,20 +76,20 @@ public class Inloggning extends javax.swing.JFrame {
                 .addComponent(btnLoggaIn)
                 .addGap(53, 53, 53))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lblFelmeddelande, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(50, 50, 50)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblLosenord, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblEPost, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(tfEPost)
-                            .addComponent(tfLosenord, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(230, Short.MAX_VALUE))
+                            .addComponent(tfEPost, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                            .addComponent(tfLosenord)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblFelmeddelande, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(169, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,16 +122,25 @@ public class Inloggning extends javax.swing.JFrame {
         String losen = tfLosenord.getText(); //Ska inte synas i fönstret
         
         try{
-            String sqlFraga = "select losenord from anstalld where epost = '" + ePost + "';";
+            String selectLosenord = "select losenord from anstalld where epost = '" + ePost + "';";
+            String selectJobbTitel = "select aid from admin where aid = (select aid from anstalld where epost = '" + ePost + "');";
             //System.out.println(sqlFraga);
-            String dbLosen = idb.fetchSingle(sqlFraga); //dbLosen är den den variabel som får svaret ifrån frågan som skickas in. Använder objektet som har en databasuppkoppling
+            String dbLosen = idb.fetchSingle(selectLosenord); //dbLosen är den den variabel som får svaret ifrån frågan som skickas in. Använder objektet som har en databasuppkoppling
+            String jobbTitel = idb.fetchSingle(selectJobbTitel);
             if(losen.equals(dbLosen)){ //Viktigt att det som står före equals inte är null. Detta eftersom att null inte har några metoder (t.ex equals)
             //kolla så att användaren faktiskt lagt in någonting i epost samt losen
-                new Meny(idb,ePost).setVisible(true);
+                if(jobbTitel == null){
+                    new MenyHandlaggare(idb,ePost).setVisible(true);
+                }
+                else{
+                    new MenyAdmin(idb,ePost).setVisible(true);
+                }
                 this.setVisible(false); //Döljer detta fönstret
             }
             else{
-                lblFelmeddelande.setVisible(true); 
+                lblFelmeddelande.setVisible(true);
+                tfEPost.setText("");
+                tfLosenord.setText("");
             }
         }
         catch(InfException ex){
