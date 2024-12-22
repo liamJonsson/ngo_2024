@@ -128,7 +128,6 @@ public class Inloggning extends javax.swing.JFrame {
             String dbLosen = idb.fetchSingle(selectLosenord); //dbLosen är den den variabel som får svaret ifrån frågan som skickas in. Använder objektet som har en databasuppkoppling
             String jobbTitel = idb.fetchSingle(selectJobbTitel);
             if(losen.equals(dbLosen)){ //Viktigt att det som står före equals inte är null. Detta eftersom att null inte har några metoder (t.ex equals)
-            //kolla så att användaren faktiskt lagt in någonting i epost samt losen
                 if(jobbTitel == null){
                     new MenyHandlaggare(idb,ePost).setVisible(true);
                 }
@@ -144,6 +143,7 @@ public class Inloggning extends javax.swing.JFrame {
             }
         }
         catch(InfException ex){
+            //kolla så att användaren faktiskt lagt in någonting i epost samt losen.
             System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_btnLoggaInActionPerformed
