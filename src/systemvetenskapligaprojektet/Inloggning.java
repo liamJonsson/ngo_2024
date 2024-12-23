@@ -11,7 +11,7 @@ import oru.inf.InfException; //importeras i alla klasser som vi ska använda
  */
 public class Inloggning extends javax.swing.JFrame {
 
-    private InfDB idb;
+    private static InfDB idb;
     /**
      * Creates new form Inloggning
      */
@@ -43,14 +43,14 @@ public class Inloggning extends javax.swing.JFrame {
 
         lblLosenord.setText("Lösenord");
 
-        tfEPost.setText("ahmed.khan@example.com");
+        tfEPost.setText("maria.g@example.com");
         tfEPost.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfEPostActionPerformed(evt);
             }
         });
 
-        tfLosenord.setText("password789");
+        tfLosenord.setText("password123");
         tfLosenord.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfLosenordActionPerformed(evt);
@@ -115,16 +115,15 @@ public class Inloggning extends javax.swing.JFrame {
     private void tfEPostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfEPostActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfEPostActionPerformed
-
+    
     private void btnLoggaInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoggaInActionPerformed
-        
         String ePost = tfEPost.getText();
         String losen = tfLosenord.getText(); //Ska inte synas i fönstret
         
         try{
             String selectLosenord = "select losenord from anstalld where epost = '" + ePost + "';";
             String selectJobbTitel = "select aid from admin where aid = (select aid from anstalld where epost = '" + ePost + "');";
-            //System.out.println(sqlFraga);
+            //System.out.println(selectLosenord);
             String dbLosen = idb.fetchSingle(selectLosenord); //dbLosen är den den variabel som får svaret ifrån frågan som skickas in. Använder objektet som har en databasuppkoppling
             String jobbTitel = idb.fetchSingle(selectJobbTitel);
             if(losen.equals(dbLosen)){ //Viktigt att det som står före equals inte är null. Detta eftersom att null inte har några metoder (t.ex equals)

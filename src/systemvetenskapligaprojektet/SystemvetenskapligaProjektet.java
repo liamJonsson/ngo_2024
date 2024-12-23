@@ -22,8 +22,7 @@ public class SystemvetenskapligaProjektet {
             new Inloggning(idb).setVisible(true);
         }
         catch(InfException ex){ //om någotning går fel i uppkopplingen av databasen så kommer variabeln ex fånga upp de specifika felmeddelandena som finns i infdb-klassen
-            System.out.println(ex.getMessage());
-            
+            System.out.println(ex.getMessage());   
         }
     }
     

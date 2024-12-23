@@ -9,14 +9,13 @@ import oru.inf.InfException; //importeras i alla klasser som vi ska använda
  *
  * @author limme
  */
-public class MinAvdelning extends javax.swing.JFrame {
+public class AllaPartners extends javax.swing.JFrame {
 
-    private static InfDB idb;
+    private static InfDB;
     /**
-     * Creates new form MinAvdelning
+     * Creates new form AllaPartners
      */
-    public MinAvdelning(InfDB idb) {
-        this.idb = idb;
+    public AllaPartners() {
         initComponents();
     }
 
@@ -62,20 +61,20 @@ public class MinAvdelning extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MinAvdelning.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AllaPartners.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MinAvdelning.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AllaPartners.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MinAvdelning.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AllaPartners.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MinAvdelning.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AllaPartners.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                //new MinAvdelning().setVisible(true);
+                new AllaPartners().setVisible(true);
             }
         });
     }
