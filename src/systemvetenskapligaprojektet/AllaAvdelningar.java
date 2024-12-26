@@ -15,8 +15,8 @@ public class AllaAvdelningar extends javax.swing.JFrame {
     private static InfDB idb;
     private String inloggadAnvandare;
     //Skapa en DefaultModel
-    private DefaultListModel<String> listModelID = new DefaultListModel<>();
-    private DefaultListModel<String> listModelNamn = new DefaultListModel<>();
+    private DefaultListModel<String> listModelID = new DefaultListModel<>(); //Skapar list modeller som kan visas i gränssnittet
+    private DefaultListModel<String> listModelNamn = new DefaultListModel<>(); //Skapar list modeller som kan visas i gränssnittet
     /**
      * Creates new form AllaAvdelningar
      */
@@ -38,21 +38,19 @@ public class AllaAvdelningar extends javax.swing.JFrame {
             // SQL-fråga för att hämta namnet
             String selectAvdelningsnamn = "select namn from avdelning;";
             avdelningsnamn = idb.fetchColumn(selectAvdelningsnamn);
-            //SQL-fråga för att hämta epost-adressen
-            String selectEpost = "";
         } 
         catch (InfException ex) {
             ex.printStackTrace();
         }
         // Lägg till data från ArrayList till modellen
         for(String ettID:avdelningsID){
-            listModelID.addElement(ettID);
+            listModelID.addElement(ettID); //Loopar igenom listan avdelningsID
         }
         for(String ettNamn:avdelningsnamn){
-            listModelNamn.addElement(ettNamn);
+            listModelNamn.addElement(ettNamn); //Loopar igenom listan avdelningsNamn
         }
-        listAvdelningsID.setModel(listModelID);
-        listAvdelningsnamn.setModel(listModelNamn);
+        listAvdelningsID.setModel(listModelID); //Uppdaterar modellerna som nu innehåller data
+        listAvdelningsnamn.setModel(listModelNamn); //Uppdaterar modellerna som nu innehåller data
         
         
     }
@@ -134,9 +132,8 @@ public class AllaAvdelningar extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnTillbaka)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnLaggTill)
-                        .addComponent(btnSok)))
+                    .addComponent(btnSok)
+                    .addComponent(btnLaggTill))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 

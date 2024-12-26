@@ -5,6 +5,7 @@
 package systemvetenskapligaprojektet;
 import oru.inf.InfDB; //importeras i alla klasser som vi ska använda
 import oru.inf.InfException; //importeras i alla klasser som vi ska använda
+import java.lang.NumberFormatException;
 /**
  *
  * @author limme
@@ -188,7 +189,7 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
         String namn = tfNamn.getText();
         String beskrivning = tfBeskrivning.getText();
         String adress = tfAdress.getText();
-        String epost = tfEpost.getText();
+        String epost = tfEpost.getText(); //Kolla så att det verkligen är en epost-adress!
         String telefon = tfTelefonnummer.getText();
         String stad = tfStad.getText();
         String chef = tfAvdelningschefID.getText();
@@ -201,7 +202,7 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
                 + stadsID + "," + chefsID +");";
         idb.insert(insertNyAvdelning);
         }
-        catch(InfException ex){ //Catch InfExceptions?
+        catch(InfException | NumberFormatException ex){ //Catch InfExceptions?
             System.out.println(ex);
         }
         new AllaAvdelningar(idb,inloggadAnvandare).setVisible(true);
