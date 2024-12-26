@@ -5,6 +5,7 @@
 package systemvetenskapligaprojektet;
 import oru.inf.InfDB; //importeras i alla klasser som vi ska använda
 import oru.inf.InfException; //importeras i alla klasser som vi ska använda
+import java.util.ArrayList;
 import java.lang.NumberFormatException;
 /**
  *
@@ -196,6 +197,28 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
         int avdid = Integer.parseInt(textID);
         int stadsID = Integer.parseInt(stad);
         int chefsID = Integer.parseInt(chef);
+
+        /*Försök till att kunna lägga till namn på stad och chef
+        String selectStader = "select namn from stad;";
+        ArrayList<String> stader = idb.fetchColumn(selectStader);
+        
+        String selectChefer = "select namn from anstalld;";
+        ArrayList<String> chefer = idb.fetchColumn(selectChefer);
+        
+        for(String enStad:stader){
+            if(stad.equals(enStad)){
+                String selectStad = "select sid from stad where namn = '" + enStad + "';";
+                stadsID = idb.fetchSingle(selectStad);
+            }
+        }
+        for(String enChef:chefer){
+            if(stad.equals(enChef)){
+                String selectChef = "select aid from anstalld where fornamn = '" + enChef + "';";
+                chefsID = idb.fetchSingle(selectChef);
+            }
+        }
+        */
+        
         
         String insertNyAvdelning = "insert into avdelning (avdid,namn,beskrivning,adress,epost,telefon,stad,chef) values "
                 + "(" + avdid + ",'" + namn + "','" + beskrivning + "','" + adress + "','" + epost + "','" + telefon + "',"
