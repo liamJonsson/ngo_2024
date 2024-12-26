@@ -122,7 +122,7 @@ public class MenyHandlaggare extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnMinaSidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinaSidorActionPerformed
-        new MinaSidor(idb).setVisible(true);
+        new MinaSidor(idb,inloggadAnvandare).setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnMinaSidorActionPerformed
 

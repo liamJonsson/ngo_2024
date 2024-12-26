@@ -78,6 +78,12 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
             }
         });
 
+        tfID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfIDActionPerformed(evt);
+            }
+        });
+
         btnLaggTill.setText("Lägg till");
         btnLaggTill.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -208,6 +214,10 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
         new AllaAvdelningar(idb,inloggadAnvandare).setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnLaggTillActionPerformed
+
+    private void tfIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfIDActionPerformed
 
     /**
      * @param args the command line arguments

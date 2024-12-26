@@ -5,6 +5,10 @@
 package systemvetenskapligaprojektet;
 import oru.inf.InfDB; //importeras i alla klasser som vi ska använda
 import oru.inf.InfException; //importeras i alla klasser som vi ska använda
+import javax.swing.DefaultListModel;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author limme
@@ -12,12 +16,16 @@ import oru.inf.InfException; //importeras i alla klasser som vi ska använda
 public class MinaSidor extends javax.swing.JFrame {
 
     private InfDB idb;
+    private String inloggadAnvandare;
+    private DefaultListModel<String> listModelProjektchef = new DefaultListModel<>();
     /**
      * Creates new form MinaSidor
      */
-    public MinaSidor(InfDB idb) {
+    public MinaSidor(InfDB idb,String inloggadAnvandare) {
         this.idb = idb;
+        this.inloggadAnvandare = inloggadAnvandare;
         initComponents();
+        taFramInfo();
     }
 
     /**
@@ -29,21 +37,178 @@ public class MinaSidor extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTextField11 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        tfAid = new javax.swing.JTextField();
+        tfFornamn = new javax.swing.JTextField();
+        tfEfternamn = new javax.swing.JTextField();
+        tfTelefonnummer = new javax.swing.JTextField();
+        tfEpost = new javax.swing.JTextField();
+        tfAdress = new javax.swing.JTextField();
+        tfAvdelning = new javax.swing.JTextField();
+        tfArbetsRoll = new javax.swing.JTextField();
+        lblAid = new javax.swing.JLabel();
+        lblAvdelning = new javax.swing.JLabel();
+        btnSpara = new javax.swing.JButton();
+        btnTillbaka = new javax.swing.JButton();
+
+        jTextField11.setText("jTextField1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setText("Mina sidor");
+
+        tfAid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfAidActionPerformed(evt);
+            }
+        });
+
+        tfFornamn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfFornamnActionPerformed(evt);
+            }
+        });
+
+        tfEpost.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfEpostActionPerformed(evt);
+            }
+        });
+
+        tfAdress.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfAdressActionPerformed(evt);
+            }
+        });
+
+        tfAvdelning.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfAvdelningActionPerformed(evt);
+            }
+        });
+
+        tfArbetsRoll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfArbetsRollActionPerformed(evt);
+            }
+        });
+
+        lblAid.setText("#");
+
+        lblAvdelning.setText("Avdelning");
+
+        btnSpara.setText("Spara");
+
+        btnTillbaka.setText("Tillbaka");
+        btnTillbaka.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTillbakaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnSpara)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnTillbaka))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(tfArbetsRoll, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblAvdelning)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(tfAvdelning, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)))
+                                .addGap(99, 99, 99))
+                            .addComponent(tfAdress, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfFornamn, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(lblAid)
+                                .addGap(3, 3, 3)
+                                .addComponent(tfAid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(tfEfternamn, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfTelefonnummer, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfEpost, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(146, 146, 146)))
+                .addGap(19, 19, 19))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tfAid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblAid))
+                        .addGap(18, 18, 18)
+                        .addComponent(tfFornamn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(tfEfternamn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(tfTelefonnummer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(tfEpost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(tfAdress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblAvdelning)
+                        .addComponent(tfAvdelning, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(tfArbetsRoll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSpara)
+                    .addComponent(btnTillbaka))
+                .addGap(14, 14, 14))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tfFornamnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfFornamnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfFornamnActionPerformed
+
+    private void tfEpostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfEpostActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfEpostActionPerformed
+
+    private void tfAdressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfAdressActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfAdressActionPerformed
+
+    private void tfArbetsRollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfArbetsRollActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfArbetsRollActionPerformed
+
+    private void tfAvdelningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfAvdelningActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfAvdelningActionPerformed
+
+    private void btnTillbakaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTillbakaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTillbakaActionPerformed
+
+    private void tfAidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfAidActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfAidActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,7 +244,85 @@ public class MinaSidor extends javax.swing.JFrame {
             }
         });
     }
+    private void taFramInfo(){
+        try{
+        String selectAid = "select aid from anstalld where epost = '" + inloggadAnvandare + "';";
+        String anstalldsId = idb.fetchSingle(selectAid);
+        tfAid.setText(anstalldsId);
+        
+        String selectFornamn = "select fornamn from anstalld where epost = '" + inloggadAnvandare + "';";
+        String anstalldsFornamn = idb.fetchSingle(selectFornamn);
+        tfFornamn.setText(anstalldsFornamn);
+        
+        String selectEfternamn = "select efternamn from anstalld where epost = '" + inloggadAnvandare + "';";
+        String anstalldsEfternamn = idb.fetchSingle(selectEfternamn);
+        tfEfternamn.setText(anstalldsEfternamn);
+        
+        String selectTelefonnummer = "select telefon from anstalld where epost = '" + inloggadAnvandare + "';";
+        String anstalldsTelefon = idb.fetchSingle(selectTelefonnummer);
+        tfTelefonnummer.setText(anstalldsTelefon);
+        
+        String selectEpost = "select epost from anstalld where epost = '" + inloggadAnvandare + "';";
+        String anstalldsEpost = idb.fetchSingle(selectEpost);
+        tfEpost.setText(anstalldsEpost);
+        
+        String selectAdress = "select adress from anstalld where epost = '" + inloggadAnvandare + "';";
+        String anstalldsAdress = idb.fetchSingle(selectAdress);
+        tfAdress.setText(anstalldsAdress);
+        
+        String selectAvdelning = "select avdelning from anstalld where epost = '" + inloggadAnvandare + "';";
+        String anstalldsAvdelning = idb.fetchSingle(selectAvdelning); //Ok även om avdelningsnummret egentligen är en int?.
+        tfAvdelning.setText(anstalldsAvdelning);
+        
+    }
+        catch(InfException ex){
+            System.out.println(ex);
+            
+        }
+    }
+    
+    public void laggTillAidFranDatabas(){
+        ArrayList<String> projektchef = new ArrayList<>();
+        try{
+            String selectProjektchef = "select projektchef from projekt;";
+            projektchef = idb.fetchColumn(selectProjektchef);
+            
+            String selectAid = "select aid from anstalld where epost = '" + inloggadAnvandare + "';";
+            String anstalldsId = idb.fetchSingle(selectAid);
+        }
+        catch (InfException ex) {
+            System.out.println(ex);
+        }
+            
+        //Ändra nedanför, det som står innanför parantesen på rad 301. Lägg till så att det ändras om man enbart är handläggare eller administratör.
+        for(String ettProjektchefsId : projektchef){
+            String text = "administratör";
+            try {
+                if(ettProjektchefsId.equals(idb.fetchSingle("select aid from anstalld where epost = '" + inloggadAnvandare + "';"))){
+                    text = "Handläggare/Projektchef";
+                    tfArbetsRoll.setText(text);  
+                }
+            } catch (InfException ex) {
+                System.out.println(ex);
+            }
+        }
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSpara;
+    private javax.swing.JButton btnTillbaka;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextField jTextField11;
+    private javax.swing.JLabel lblAid;
+    private javax.swing.JLabel lblAvdelning;
+    private javax.swing.JTextField tfAdress;
+    private javax.swing.JTextField tfAid;
+    private javax.swing.JTextField tfArbetsRoll;
+    private javax.swing.JTextField tfAvdelning;
+    private javax.swing.JTextField tfEfternamn;
+    private javax.swing.JTextField tfEpost;
+    private javax.swing.JTextField tfFornamn;
+    private javax.swing.JTextField tfTelefonnummer;
     // End of variables declaration//GEN-END:variables
 }

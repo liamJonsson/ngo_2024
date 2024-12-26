@@ -160,7 +160,7 @@ public class MenyAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAllaPartnersActionPerformed
 
     private void btnMinaSidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinaSidorActionPerformed
-        new MinaSidor(idb).setVisible(true);
+        new MinaSidor(idb,inloggadAnvandare).setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnMinaSidorActionPerformed
 
