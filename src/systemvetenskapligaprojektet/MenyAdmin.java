@@ -155,7 +155,7 @@ public class MenyAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAllaAvdelningarActionPerformed
 
     private void btnAllaPartnersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAllaPartnersActionPerformed
-       
+        new AllaPartners(idb, inloggadAnvandare).setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnAllaPartnersActionPerformed
 
