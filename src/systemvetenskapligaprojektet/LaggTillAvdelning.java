@@ -15,6 +15,7 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
 
     private InfDB idb;
     private String inloggadAnvandare;
+    private String antalAvdelningar;
     /**
      * Creates new form LaggTillAvdelning
      */
@@ -252,6 +253,7 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfAdressActionPerformed
 
+    
     private void btnLaggTillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaggTillActionPerformed
         try{
         String textID = tfID.getText();
@@ -267,28 +269,6 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
         int stadsID = Integer.parseInt(stad);
         int chefsID = Integer.parseInt(chef);
 
-
-        String selectStader = "select namn from stad;";
-        ArrayList<String> stader = idb.fetchColumn(selectStader);
-        
-        for(String enStad:stader){
-            if(stad.equals(enStad)){
-                String selectStad = "select sid from stad where namn = '" + enStad + "';";
-                stadsID = idb.fetchSingle(selectStad);
-            }
-        }
-        
-        String selectChefer = "select fornamn from anstalld;";
-        ArrayList<String> chefFNamn = idb.fetchColumn(selectChefer);
-              
-        for(String enChef:chefFNamn){
-            if(fornamn.equals(enChef)){
-                String selectChef = "select aid from anstalld where epost = '" + inloggadAnvandare + "';";
-                chefsID = idb.fetchSingle(selectChef);
-            }
-        }
-        
-        
         String insertNyAvdelning = "insert into avdelning (avdid,namn,beskrivning,adress,epost,telefon,stad,chef) values "
                 + "(" + avdid + ",'" + namn + "','" + beskrivning + "','" + adress + "','" + epost + "','" + telefon + "',"
                 + stadsID + "," + chefsID +");";

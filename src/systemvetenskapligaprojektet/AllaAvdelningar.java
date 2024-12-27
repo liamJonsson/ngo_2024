@@ -26,6 +26,7 @@ public class AllaAvdelningar extends javax.swing.JFrame {
     private DefaultListModel<String> listModelStad = new DefaultListModel<>(); //Skapar list modeller som kan visas i gränssnittet
     private DefaultListModel<String> listModelAvdelningschefFNamn = new DefaultListModel<>(); //Skapar list modeller som kan visas i gränssnittet
     private DefaultListModel<String> listModelAvdelningschefENamn = new DefaultListModel<>(); //Skapar list modeller som kan visas i gränssnittet
+    private String antalAvdelningar;
 
     /**
      * Creates new form AllaAvdelningar
@@ -37,6 +38,19 @@ public class AllaAvdelningar extends javax.swing.JFrame {
         populateListFromDatabase();
     }
     
+    public int antalAvdelningar(){
+        int antal = 0;
+        try{
+        String selectAntalAvdelningar = "select count(avdid) from avdelning;";
+        antalAvdelningar = idb.fetchSingle(selectAntalAvdelningar);
+        antal = Integer.parseInt(antalAvdelningar);
+        }
+        catch(InfException ex){
+            System.out.println(ex);
+        }
+        return antal;
+    }
+    
     public void populateListFromDatabase() {
         // Skapa en ArrayList för att hålla data från databasen
         ArrayList<String> avdelningsID = new ArrayList<>();
@@ -45,7 +59,7 @@ public class AllaAvdelningar extends javax.swing.JFrame {
         ArrayList<String> adress = new ArrayList<>();
         ArrayList<String> epost = new ArrayList<>();
         ArrayList<String> telefon = new ArrayList<>();
-        ArrayList<String> stad = new ArrayList<>();
+        ArrayList<String> allaAvdelningar = new ArrayList<>();
         ArrayList<String> avdelningschefFNamn = new ArrayList<>();
         ArrayList<String> avdelningschefENamn = new ArrayList<>();
         try{
@@ -68,8 +82,8 @@ public class AllaAvdelningar extends javax.swing.JFrame {
             String selectTelefon = "select telefon from avdelning;";
             telefon = idb.fetchColumn(selectTelefon);
             
-            String selectStad = "select namn from stad where sid in (select stad from avdelning);";
-            stad = idb.fetchColumn(selectStad);
+            String selectAllaAvdelningar = "select avdid from avdelning;";
+            allaAvdelningar = idb.fetchColumn(selectAllaAvdelningar);
             
             String selectAvdelningschefFNamn = "select fornamn from anstalld where aid in (select chef from avdelning);";
             avdelningschefFNamn = idb.fetchColumn(selectAvdelningschefFNamn);
@@ -97,17 +111,32 @@ public class AllaAvdelningar extends javax.swing.JFrame {
         for(String enTelefon:telefon){
             listModelTelefon.addElement(enTelefon); //Loopar igenom listan avdelningsNamn
         }
-        for(String enStad:stad){
-            String selectEttStadsID = "select sid from stad where namn = '" + enStad + "';";
-            String ettStadsIDText0 = idb.fetchSingle(selectEttStadsID);
-            int 
-            listModelStad.add(ettStadsID, enStad); //Loopar igenom listan avdelningsNamn
+        for(String enAvdelning:allaAvdelningar){
+            int ettAvdelningsID = Integer.parseInt(enAvdelning);
+            String selectStad = "select stad from avdelning where avdid = " + ettAvdelningsID + ";";
+            String stad = idb.fetchSingle(selectStad);
+            int stadsID = Integer.parseInt(stad);
+            String selectStadsNamn = "select namn from stad where sid = " + stadsID + ";";
+            String stadsNamn = idb.fetchSingle(selectStadsNamn);
+            listModelStad.addElement(stadsNamn);
         }
-        for(String enChef:avdelningschefFNamn){
-            listModelAvdelningschefFNamn.addElement(enChef); //Loopar igenom listan avdelningsNamn
+        for(String enAvdelning:allaAvdelningar){
+            int ettAvdelningsID = Integer.parseInt(enAvdelning);
+            String selectChef = "select chef from avdelning where avdid = " + ettAvdelningsID + ";";
+            String chef = idb.fetchSingle(selectChef);
+            int chefsID = Integer.parseInt(chef);
+            String selectChefsFornamn = "select fornamn from anstalld where aid = " + chefsID + ";";
+            String chefsFornamn = idb.fetchSingle(selectChefsFornamn);
+            listModelAvdelningschefFNamn.addElement(chefsFornamn); //Loopar igenom listan avdelningsNamn
         }
-        for(String enChef:avdelningschefENamn){
-            listModelAvdelningschefENamn.addElement(enChef); //Loopar igenom listan avdelningsNamn
+        for(String enAvdelning:allaAvdelningar){
+            int ettAvdelningsID = Integer.parseInt(enAvdelning);
+            String selectChef = "select chef from avdelning where avdid = " + ettAvdelningsID + ";";
+            String chef = idb.fetchSingle(selectChef);
+            int chefsID = Integer.parseInt(chef);
+            String selectChefsEfternamn = "select efternamn from anstalld where aid = " + chefsID + ";";
+            String chefsEfternamn = idb.fetchSingle(selectChefsEfternamn);
+            listModelAvdelningschefENamn.addElement(chefsEfternamn); //Loopar igenom listan avdelningsNamn
         }
         listAvdelningsID.setModel(listModelID); //Uppdaterar modellerna som nu innehåller data
         listAvdelningsnamn.setModel(listModelNamn); //Uppdaterar modellerna som nu innehåller data      
