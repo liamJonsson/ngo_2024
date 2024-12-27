@@ -76,10 +76,8 @@ public class AllaAvdelningar extends javax.swing.JFrame {
             
             String selectAvdelningschefENamn = "select efternamn from anstalld where aid in (select chef from avdelning);";
             avdelningschefENamn = idb.fetchColumn(selectAvdelningschefENamn);
-        } 
-        catch (InfException ex) {
-            ex.printStackTrace();
-        }
+         
+        
         // Lägg till data från ArrayList till modellen
         for(String ettID:avdelningsID){
             listModelID.addElement(ettID); //Loopar igenom listan avdelningsID
@@ -100,7 +98,10 @@ public class AllaAvdelningar extends javax.swing.JFrame {
             listModelTelefon.addElement(enTelefon); //Loopar igenom listan avdelningsNamn
         }
         for(String enStad:stad){
-            listModelStad.addElement(enStad); //Loopar igenom listan avdelningsNamn
+            String selectEttStadsID = "select sid from stad where namn = '" + enStad + "';";
+            String ettStadsIDText0 = idb.fetchSingle(selectEttStadsID);
+            int 
+            listModelStad.add(ettStadsID, enStad); //Loopar igenom listan avdelningsNamn
         }
         for(String enChef:avdelningschefFNamn){
             listModelAvdelningschefFNamn.addElement(enChef); //Loopar igenom listan avdelningsNamn
@@ -117,6 +118,10 @@ public class AllaAvdelningar extends javax.swing.JFrame {
         listStad.setModel(listModelStad); //Uppdaterar modellerna som nu innehåller data
         listChefFNamn.setModel(listModelAvdelningschefFNamn); //Uppdaterar modellerna som nu innehåller data
         listChefENamn.setModel(listModelAvdelningschefENamn); //Uppdaterar modellerna som nu innehåller data
+        }
+        catch (InfException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -284,13 +289,12 @@ public class AllaAvdelningar extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(lblNamn, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(21, 21, 21)
-                                        .addComponent(lblBeskrivning, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(lblBeskrivning, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnLaggTill, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

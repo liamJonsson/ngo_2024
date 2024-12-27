@@ -73,9 +73,77 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
 
         lblAvdelningschefID.setText("Avdelningschef");
 
+        tfNamn.setEditable(false);
+        tfNamn.setText("Ex. Avdelning för miljöfrågor");
+        tfNamn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tfNamnMouseClicked(evt);
+            }
+        });
+        tfNamn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfNamnActionPerformed(evt);
+            }
+        });
+
+        tfAdress.setEditable(false);
+        tfAdress.setText("Ex. NGO-gatan 3");
+        tfAdress.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tfAdressMouseClicked(evt);
+            }
+        });
         tfAdress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfAdressActionPerformed(evt);
+            }
+        });
+
+        tfBeskrivning.setEditable(false);
+        tfBeskrivning.setText("Ex. Fokuserar på att ta fram metoder för att lösa miljöproblematiken");
+        tfBeskrivning.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tfBeskrivningMouseClicked(evt);
+            }
+        });
+
+        tfEpost.setEditable(false);
+        tfEpost.setText("Ex. hej@example.com");
+        tfEpost.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tfEpostMouseClicked(evt);
+            }
+        });
+
+        tfTelefonnummer.setEditable(false);
+        tfTelefonnummer.setText("Ex 342-234-2344");
+        tfTelefonnummer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tfTelefonnummerMouseClicked(evt);
+            }
+        });
+
+        tfStad.setEditable(false);
+        tfStad.setText("Ex. 1");
+        tfStad.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tfStadMouseClicked(evt);
+            }
+        });
+
+        tfAvdelningschefID.setEditable(false);
+        tfAvdelningschefID.setText("Ex. 1");
+        tfAvdelningschefID.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tfAvdelningschefIDMouseClicked(evt);
+            }
+        });
+
+        tfID.setEditable(false);
+        tfID.setText("Ex. 1");
+        tfID.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tfIDMouseClicked(evt);
             }
         });
 
@@ -125,8 +193,8 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
                                 .addComponent(tfEpost)
                                 .addComponent(tfTelefonnummer)
                                 .addComponent(tfStad)
-                                .addComponent(tfAvdelningschefID, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)))))
-                .addContainerGap(19, Short.MAX_VALUE))
+                                .addComponent(tfAvdelningschefID)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,16 +262,14 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
         String telefon = tfTelefonnummer.getText();
         String stad = tfStad.getText();
         String chef = tfAvdelningschefID.getText();
+        
         int avdid = Integer.parseInt(textID);
         int stadsID = Integer.parseInt(stad);
         int chefsID = Integer.parseInt(chef);
 
-        /*Försök till att kunna lägga till namn på stad och chef
+
         String selectStader = "select namn from stad;";
         ArrayList<String> stader = idb.fetchColumn(selectStader);
-        
-        String selectChefer = "select namn from anstalld;";
-        ArrayList<String> chefer = idb.fetchColumn(selectChefer);
         
         for(String enStad:stader){
             if(stad.equals(enStad)){
@@ -211,13 +277,16 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
                 stadsID = idb.fetchSingle(selectStad);
             }
         }
-        for(String enChef:chefer){
-            if(stad.equals(enChef)){
-                String selectChef = "select aid from anstalld where fornamn = '" + enChef + "';";
+        
+        String selectChefer = "select fornamn from anstalld;";
+        ArrayList<String> chefFNamn = idb.fetchColumn(selectChefer);
+              
+        for(String enChef:chefFNamn){
+            if(fornamn.equals(enChef)){
+                String selectChef = "select aid from anstalld where epost = '" + inloggadAnvandare + "';";
                 chefsID = idb.fetchSingle(selectChef);
             }
         }
-        */
         
         
         String insertNyAvdelning = "insert into avdelning (avdid,namn,beskrivning,adress,epost,telefon,stad,chef) values "
@@ -231,6 +300,50 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
         new AllaAvdelningar(idb,inloggadAnvandare).setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnLaggTillActionPerformed
+
+    private void tfNamnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNamnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfNamnActionPerformed
+
+    private void tfIDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfIDMouseClicked
+        tfID.setEditable(true);
+        tfID.setText("");
+    }//GEN-LAST:event_tfIDMouseClicked
+
+    private void tfNamnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfNamnMouseClicked
+        tfNamn.setEditable(true);
+        tfNamn.setText("");
+    }//GEN-LAST:event_tfNamnMouseClicked
+
+    private void tfBeskrivningMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfBeskrivningMouseClicked
+        tfBeskrivning.setEditable(true);
+        tfBeskrivning.setText("");
+    }//GEN-LAST:event_tfBeskrivningMouseClicked
+
+    private void tfAdressMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfAdressMouseClicked
+        tfAdress.setEditable(true);
+        tfAdress.setText("");
+    }//GEN-LAST:event_tfAdressMouseClicked
+
+    private void tfEpostMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfEpostMouseClicked
+        tfEpost.setEditable(true);
+        tfEpost.setText("");
+    }//GEN-LAST:event_tfEpostMouseClicked
+
+    private void tfTelefonnummerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfTelefonnummerMouseClicked
+        tfTelefonnummer.setEditable(true);
+        tfTelefonnummer.setText("");
+    }//GEN-LAST:event_tfTelefonnummerMouseClicked
+
+    private void tfStadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfStadMouseClicked
+        tfStad.setEditable(true);
+        tfStad.setText("");
+    }//GEN-LAST:event_tfStadMouseClicked
+
+    private void tfAvdelningschefIDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfAvdelningschefIDMouseClicked
+        tfAvdelningschefID.setEditable(true);
+        tfAvdelningschefID.setText("");
+    }//GEN-LAST:event_tfAvdelningschefIDMouseClicked
 
     /**
      * @param args the command line arguments
