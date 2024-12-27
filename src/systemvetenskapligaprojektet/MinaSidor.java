@@ -5,7 +5,6 @@
 package systemvetenskapligaprojektet;
 import oru.inf.InfDB; //importeras i alla klasser som vi ska använda
 import oru.inf.InfException; //importeras i alla klasser som vi ska använda
-import javax.swing.DefaultListModel;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,17 +16,88 @@ public class MinaSidor extends javax.swing.JFrame {
 
     private InfDB idb;
     private String inloggadAnvandare;
-    private DefaultListModel<String> listModelProjektchef = new DefaultListModel<>();
+    private String text;
+    
     /**
      * Creates new form MinaSidor
      */
     public MinaSidor(InfDB idb,String inloggadAnvandare) {
         this.idb = idb;
         this.inloggadAnvandare = inloggadAnvandare;
+        
         initComponents();
         taFramInfo();
+        taFramArbetsroll();
     }
 
+     private void taFramInfo(){
+        try{
+        String selectAid = "select aid from anstalld where epost = '" + inloggadAnvandare + "';";
+        String anstalldsId = idb.fetchSingle(selectAid);
+        tfAid.setText(anstalldsId);
+        
+        String selectFornamn = "select fornamn from anstalld where epost = '" + inloggadAnvandare + "';";
+        String anstalldsFornamn = idb.fetchSingle(selectFornamn);
+        tfFornamn.setText(anstalldsFornamn);
+        
+        String selectEfternamn = "select efternamn from anstalld where epost = '" + inloggadAnvandare + "';";
+        String anstalldsEfternamn = idb.fetchSingle(selectEfternamn);
+        tfEfternamn.setText(anstalldsEfternamn);
+        
+        String selectTelefonnummer = "select telefon from anstalld where epost = '" + inloggadAnvandare + "';";
+        String anstalldsTelefon = idb.fetchSingle(selectTelefonnummer);
+        tfTelefonnummer.setText(anstalldsTelefon);
+        
+        String selectEpost = "select epost from anstalld where epost = '" + inloggadAnvandare + "';";
+        String anstalldsEpost = idb.fetchSingle(selectEpost);
+        tfEpost.setText(anstalldsEpost);
+        
+        String selectAdress = "select adress from anstalld where epost = '" + inloggadAnvandare + "';";
+        String anstalldsAdress = idb.fetchSingle(selectAdress);
+        tfAdress.setText(anstalldsAdress);
+        
+        String selectAvdelning = "select avdelning from anstalld where epost = '" + inloggadAnvandare + "';";
+        String anstalldsAvdelning = idb.fetchSingle(selectAvdelning); //Ok även om avdelningsnummret egentligen är en int?.
+        tfAvdelning.setText(anstalldsAvdelning);
+        
+    }
+        catch(InfException ex){
+            System.out.println(ex);
+            
+        }
+    }
+    
+    private void taFramArbetsroll(){
+        ArrayList<String> projektchef = new ArrayList<>();
+        ArrayList<String> handlaggare = new ArrayList<>();
+        text = "Administratör";
+        try{
+             String selectAid = "select aid from anstalld where epost = '" + inloggadAnvandare + "';";
+            String anstalldsId = idb.fetchSingle(selectAid); 
+            
+            String selectProjektchef = "select projektchef from projekt;";
+            projektchef = idb.fetchColumn(selectProjektchef);
+            
+            String selectHandlaggare = "select aid from handlaggare;";
+            handlaggare = idb.fetchColumn(selectHandlaggare);
+          
+            for(String ettProjektchefsId : projektchef){
+                if(ettProjektchefsId.equals(anstalldsId)){
+                    text = "Handläggare/Projektchef";
+                }
+            }
+            for(String enHandlaggare : handlaggare){
+                if(enHandlaggare.equals(anstalldsId)){
+                    text = "Handläggare";
+                }
+            }
+            tfArbetsRoll.setText(text); 
+            }
+            
+        catch (InfException ex) {
+            System.out.println(ex);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,6 +121,7 @@ public class MinaSidor extends javax.swing.JFrame {
         lblAvdelning = new javax.swing.JLabel();
         btnSpara = new javax.swing.JButton();
         btnTillbaka = new javax.swing.JButton();
+        btnRedigeraUppgifter = new javax.swing.JButton();
 
         jTextField11.setText("jTextField1");
 
@@ -59,52 +130,44 @@ public class MinaSidor extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Mina sidor");
 
-        tfAid.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfAidActionPerformed(evt);
-            }
-        });
+        tfAid.setEditable(false);
 
-        tfFornamn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfFornamnActionPerformed(evt);
-            }
-        });
+        tfFornamn.setEditable(false);
 
-        tfEpost.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfEpostActionPerformed(evt);
-            }
-        });
+        tfEfternamn.setEditable(false);
 
-        tfAdress.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfAdressActionPerformed(evt);
-            }
-        });
+        tfTelefonnummer.setEditable(false);
 
-        tfAvdelning.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfAvdelningActionPerformed(evt);
-            }
-        });
+        tfEpost.setEditable(false);
 
-        tfArbetsRoll.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfArbetsRollActionPerformed(evt);
-            }
-        });
+        tfAdress.setEditable(false);
+
+        tfAvdelning.setEditable(false);
+
+        tfArbetsRoll.setEditable(false);
 
         lblAid.setText("#");
 
         lblAvdelning.setText("Avdelning");
 
         btnSpara.setText("Spara");
+        btnSpara.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSparaActionPerformed(evt);
+            }
+        });
 
         btnTillbaka.setText("Tillbaka");
         btnTillbaka.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTillbakaActionPerformed(evt);
+            }
+        });
+
+        btnRedigeraUppgifter.setText("Redigera Uppgifter");
+        btnRedigeraUppgifter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRedigeraUppgifterActionPerformed(evt);
             }
         });
 
@@ -116,8 +179,10 @@ public class MinaSidor extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnSpara)
+                        .addComponent(btnRedigeraUppgifter)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSpara)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnTillbaka))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -175,41 +240,57 @@ public class MinaSidor extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSpara)
-                    .addComponent(btnTillbaka))
+                    .addComponent(btnTillbaka)
+                    .addComponent(btnRedigeraUppgifter))
                 .addGap(14, 14, 14))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tfFornamnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfFornamnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfFornamnActionPerformed
-
-    private void tfEpostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfEpostActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfEpostActionPerformed
-
-    private void tfAdressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfAdressActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfAdressActionPerformed
-
-    private void tfArbetsRollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfArbetsRollActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfArbetsRollActionPerformed
-
-    private void tfAvdelningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfAvdelningActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfAvdelningActionPerformed
-
     private void btnTillbakaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTillbakaActionPerformed
-        // TODO add your handling code here:
+        if(text.equals("Handläggare") || text.equals("Hansläggare/Projektchef")){
+            new MenyHandlaggare(idb, inloggadAnvandare).setVisible(true);
+        }
+        else{
+            new MenyAdmin(idb, inloggadAnvandare).setVisible(true);   
+        }
+        this.setVisible(false);           
     }//GEN-LAST:event_btnTillbakaActionPerformed
 
-    private void tfAidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfAidActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfAidActionPerformed
+    private void btnRedigeraUppgifterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRedigeraUppgifterActionPerformed
+        tfFornamn.setEditable(true);  
+        tfEfternamn.setEditable(true);
+        tfAdress.setEditable(true);
+    }//GEN-LAST:event_btnRedigeraUppgifterActionPerformed
 
+    private void btnSparaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSparaActionPerformed
+        try{
+            String fornamn = tfFornamn.getText();
+            String updateFornamn = "UPDATE anstalld SET fornamn ='"+ fornamn + "' WHERE epost ='"+ inloggadAnvandare + "';";
+            idb.update(updateFornamn);
+        
+            String efternamn = tfEfternamn.getText();
+            String updateEfternamn = "UPDATE anstalld SET efternamn ='"+ efternamn + "' WHERE epost ='"+ inloggadAnvandare + "';";
+            idb.update(updateEfternamn);
+        
+            String adress = tfAdress.getText();
+            String updateAdress = "UPDATE anstalld SET adress ='"+ adress + "' WHERE epost ='"+ inloggadAnvandare + "';";
+            idb.update(updateAdress);
+        }
+        catch(InfException ex){
+            System.out.println(ex);
+        }
+        
+        enableOff();
+        
+    }//GEN-LAST:event_btnSparaActionPerformed
+
+    private void enableOff(){
+        tfFornamn.setEditable(false);  
+        tfEfternamn.setEditable(false);
+        tfAdress.setEditable(false);
+    }
     /**
      * @param args the command line arguments
      */
@@ -244,72 +325,13 @@ public class MinaSidor extends javax.swing.JFrame {
             }
         });
     }
-    private void taFramInfo(){
-        try{
-        String selectAid = "select aid from anstalld where epost = '" + inloggadAnvandare + "';";
-        String anstalldsId = idb.fetchSingle(selectAid);
-        tfAid.setText(anstalldsId);
-        
-        String selectFornamn = "select fornamn from anstalld where epost = '" + inloggadAnvandare + "';";
-        String anstalldsFornamn = idb.fetchSingle(selectFornamn);
-        tfFornamn.setText(anstalldsFornamn);
-        
-        String selectEfternamn = "select efternamn from anstalld where epost = '" + inloggadAnvandare + "';";
-        String anstalldsEfternamn = idb.fetchSingle(selectEfternamn);
-        tfEfternamn.setText(anstalldsEfternamn);
-        
-        String selectTelefonnummer = "select telefon from anstalld where epost = '" + inloggadAnvandare + "';";
-        String anstalldsTelefon = idb.fetchSingle(selectTelefonnummer);
-        tfTelefonnummer.setText(anstalldsTelefon);
-        
-        String selectEpost = "select epost from anstalld where epost = '" + inloggadAnvandare + "';";
-        String anstalldsEpost = idb.fetchSingle(selectEpost);
-        tfEpost.setText(anstalldsEpost);
-        
-        String selectAdress = "select adress from anstalld where epost = '" + inloggadAnvandare + "';";
-        String anstalldsAdress = idb.fetchSingle(selectAdress);
-        tfAdress.setText(anstalldsAdress);
-        
-        String selectAvdelning = "select avdelning from anstalld where epost = '" + inloggadAnvandare + "';";
-        String anstalldsAvdelning = idb.fetchSingle(selectAvdelning); //Ok även om avdelningsnummret egentligen är en int?.
-        tfAvdelning.setText(anstalldsAvdelning);
-        
-    }
-        catch(InfException ex){
-            System.out.println(ex);
-            
-        }
-    }
     
-    public void laggTillAidFranDatabas(){
-        ArrayList<String> projektchef = new ArrayList<>();
-        try{
-            String selectProjektchef = "select projektchef from projekt;";
-            projektchef = idb.fetchColumn(selectProjektchef);
+    
+   
             
-            String selectAid = "select aid from anstalld where epost = '" + inloggadAnvandare + "';";
-            String anstalldsId = idb.fetchSingle(selectAid);
-        }
-        catch (InfException ex) {
-            System.out.println(ex);
-        }
-            
-        //Ändra nedanför, det som står innanför parantesen på rad 301. Lägg till så att det ändras om man enbart är handläggare eller administratör.
-        for(String ettProjektchefsId : projektchef){
-            String text = "administratör";
-            try {
-                if(ettProjektchefsId.equals(idb.fetchSingle("select aid from anstalld where epost = '" + inloggadAnvandare + "';"))){
-                    text = "Handläggare/Projektchef";
-                    tfArbetsRoll.setText(text);  
-                }
-            } catch (InfException ex) {
-                System.out.println(ex);
-            }
-        }
-        
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnRedigeraUppgifter;
     private javax.swing.JButton btnSpara;
     private javax.swing.JButton btnTillbaka;
     private javax.swing.JLabel jLabel1;
