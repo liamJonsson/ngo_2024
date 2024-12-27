@@ -5,13 +5,20 @@
 package systemvetenskapligaprojektet;
 import oru.inf.InfDB; //importeras i alla klasser som vi ska använda
 import oru.inf.InfException; //importeras i alla klasser som vi ska använda
+import javax.swing.DefaultListModel;
+import java.util.ArrayList;
 /**
  *
  * @author limme
  */
 public class AllaPartners extends javax.swing.JFrame {
 
-    private static InfDB;
+    private static InfDB idb;
+    private String inloggadAnvandare;
+    //Skapa en DefaultModel
+    private DefaultListModel<String> listModelID = new DefaultListModel<>(); //Skapar list modeller som kan visas i gränssnittet
+    private DefaultListModel<String> listModelNamn = new DefaultListModel<>(); //Skapar list modeller som kan visas i gränssnittet
+    /**
     /**
      * Creates new form AllaPartners
      */
@@ -74,7 +81,7 @@ public class AllaPartners extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AllaPartners().setVisible(true);
+                //new AllaPartners().setVisible(true);.
             }
         });
     }

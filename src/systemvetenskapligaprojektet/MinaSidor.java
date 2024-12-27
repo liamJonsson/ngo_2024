@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
  *
- * @author limme
+ * @author meam
  */
 public class MinaSidor extends javax.swing.JFrame {
 
@@ -59,6 +59,10 @@ public class MinaSidor extends javax.swing.JFrame {
         String selectAvdelning = "select avdelning from anstalld where epost = '" + inloggadAnvandare + "';";
         String anstalldsAvdelning = idb.fetchSingle(selectAvdelning); //Ok även om avdelningsnummret egentligen är en int?.
         tfAvdelning.setText(anstalldsAvdelning);
+        
+        String selectAnstallningsdatum ="select anstallningsdatum from anstalld where epost = '" + inloggadAnvandare + "';";
+        String anstalldsAnstallningsdatum = idb.fetchSingle(selectAnstallningsdatum);
+        tfAnstallningsdatum.setText(anstalldsAnstallningsdatum);
         
     }
         catch(InfException ex){
@@ -122,6 +126,8 @@ public class MinaSidor extends javax.swing.JFrame {
         btnSpara = new javax.swing.JButton();
         btnTillbaka = new javax.swing.JButton();
         btnRedigeraUppgifter = new javax.swing.JButton();
+        lblAnstalldSedan = new javax.swing.JLabel();
+        tfAnstallningsdatum = new javax.swing.JTextField();
 
         jTextField11.setText("jTextField1");
 
@@ -171,6 +177,10 @@ public class MinaSidor extends javax.swing.JFrame {
             }
         });
 
+        lblAnstalldSedan.setText("Anställd sedan");
+
+        tfAnstallningsdatum.setEditable(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -186,28 +196,33 @@ public class MinaSidor extends javax.swing.JFrame {
                         .addComponent(btnTillbaka))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(tfArbetsRoll, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lblAvdelning)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(tfAvdelning, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)))
-                                .addGap(99, 99, 99))
                             .addComponent(tfAdress, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tfFornamn, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(lblAid)
-                                .addGap(3, 3, 3)
-                                .addComponent(tfAid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(tfEfternamn, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tfTelefonnummer, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfEpost, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGap(146, 146, 146)))
+                            .addComponent(tfEpost, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(51, 51, 51))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(lblAid)
+                                        .addGap(3, 3, 3)
+                                        .addComponent(tfAid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(lblAnstalldSedan, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(tfAnstallningsdatum, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(tfArbetsRoll, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addComponent(lblAvdelning)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(tfAvdelning, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(0, 33, Short.MAX_VALUE)))
+                        .addGap(95, 95, 95)))
                 .addGap(19, 19, 19))
         );
         layout.setVerticalGroup(
@@ -237,7 +252,11 @@ public class MinaSidor extends javax.swing.JFrame {
                         .addComponent(tfAvdelning, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(tfArbetsRoll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAnstalldSedan)
+                    .addComponent(tfAnstallningsdatum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSpara)
                     .addComponent(btnTillbaka)
@@ -337,9 +356,11 @@ public class MinaSidor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JLabel lblAid;
+    private javax.swing.JLabel lblAnstalldSedan;
     private javax.swing.JLabel lblAvdelning;
     private javax.swing.JTextField tfAdress;
     private javax.swing.JTextField tfAid;
+    private javax.swing.JTextField tfAnstallningsdatum;
     private javax.swing.JTextField tfArbetsRoll;
     private javax.swing.JTextField tfAvdelning;
     private javax.swing.JTextField tfEfternamn;
