@@ -7,6 +7,7 @@ import oru.inf.InfDB; //importeras i alla klasser som vi ska använda
 import oru.inf.InfException; //importeras i alla klasser som vi ska använda
 import java.util.ArrayList;
 import java.lang.NumberFormatException;
+import java.lang.ClassNotFoundException;
 /**
  *
  * @author limme
@@ -15,7 +16,8 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
 
     private InfDB idb;
     private String inloggadAnvandare;
-    private String antalAvdelningar;
+    private int avdid;
+    private int stadsID;
     /**
      * Creates new form LaggTillAvdelning
      */
@@ -23,6 +25,11 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
         this.idb = idb;
         this.inloggadAnvandare = inloggadAnvandare;
         initComponents();
+        lblFelmeddelandeID.setVisible(false);
+        lblFelmeddelandeEpost.setVisible(false);
+        lblFelmeddelandeTel.setVisible(false);
+        lblFelmeddelandeStadsID.setVisible(false);
+        lblFelmeddelandeAvdelningschef.setVisible(false);
     }
 
     /**
@@ -53,9 +60,15 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
         tfID = new javax.swing.JTextField();
         btnLaggTill = new javax.swing.JButton();
         btnTillbaka = new javax.swing.JButton();
+        lblFelmeddelandeID = new javax.swing.JLabel();
+        lblFelmeddelandeAvdelningschef = new javax.swing.JLabel();
+        lblFelmeddelandeEpost = new javax.swing.JLabel();
+        lblFelmeddelandeTel = new javax.swing.JLabel();
+        lblFelmeddelandeStadsID = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Lägg till ny avdelning");
 
         lblID.setText("ID");
@@ -162,6 +175,21 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
             }
         });
 
+        lblFelmeddelandeID.setForeground(new java.awt.Color(255, 0, 0));
+        lblFelmeddelandeID.setText("Ogiltigt ID");
+
+        lblFelmeddelandeAvdelningschef.setForeground(new java.awt.Color(255, 0, 0));
+        lblFelmeddelandeAvdelningschef.setText("Vänligen fyll i giltigt ID för avdelningschef");
+
+        lblFelmeddelandeEpost.setForeground(new java.awt.Color(255, 0, 0));
+        lblFelmeddelandeEpost.setText("Felaktigt format på epostadressen");
+
+        lblFelmeddelandeTel.setForeground(new java.awt.Color(255, 0, 0));
+        lblFelmeddelandeTel.setText("Felaktigt format på telefonnumret");
+
+        lblFelmeddelandeStadsID.setForeground(new java.awt.Color(255, 0, 0));
+        lblFelmeddelandeStadsID.setText("Vänligen fyll i giltigt stadsID");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -169,32 +197,40 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(btnLaggTill)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnTillbaka))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(lblAvdelningschefID, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblStad, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblEpost, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblAdress, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblBeskrivning, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblNamn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblID, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblTel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(tfID)
-                                .addComponent(tfNamn)
-                                .addComponent(tfBeskrivning)
-                                .addComponent(tfAdress)
-                                .addComponent(tfEpost)
-                                .addComponent(tfTelefonnummer)
-                                .addComponent(tfStad)
-                                .addComponent(tfAvdelningschefID)))))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnLaggTill)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnTillbaka))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(lblAvdelningschefID, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblStad, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblEpost, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblAdress, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblBeskrivning, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblNamn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblID, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblTel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(tfID)
+                                    .addComponent(tfNamn)
+                                    .addComponent(tfBeskrivning)
+                                    .addComponent(tfAdress)
+                                    .addComponent(tfEpost)
+                                    .addComponent(tfTelefonnummer)
+                                    .addComponent(tfStad)
+                                    .addComponent(tfAvdelningschefID))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblFelmeddelandeID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblFelmeddelandeEpost, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblFelmeddelandeTel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblFelmeddelandeStadsID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblFelmeddelandeAvdelningschef, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -205,7 +241,8 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblID)
-                    .addComponent(tfID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblFelmeddelandeID))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblNamn)
@@ -221,24 +258,28 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
                 .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEpost)
-                    .addComponent(tfEpost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfEpost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblFelmeddelandeEpost))
                 .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTel)
-                    .addComponent(tfTelefonnummer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfTelefonnummer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblFelmeddelandeTel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblStad)
-                    .addComponent(tfStad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfStad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblFelmeddelandeStadsID))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAvdelningschefID)
-                    .addComponent(tfAvdelningschefID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfAvdelningschefID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblFelmeddelandeAvdelningschef))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLaggTill)
                     .addComponent(btnTillbaka))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -256,26 +297,67 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
     
     private void btnLaggTillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaggTillActionPerformed
         try{
-        String textID = tfID.getText();
-        String namn = tfNamn.getText();
-        String beskrivning = tfBeskrivning.getText();
-        String adress = tfAdress.getText();
-        String epost = tfEpost.getText(); //Kolla så att det verkligen är en epost-adress!
-        String telefon = tfTelefonnummer.getText();
-        String stad = tfStad.getText();
-        String chef = tfAvdelningschefID.getText();
+            try{
+                String ID = tfID.getText();
+                String selectAllaAvdid = "select avdid from avdelning;";
+                ArrayList<String> allaAvdid = idb.fetchColumn(selectAllaAvdid);
+                avdid = Integer.parseInt(ID);
+                for(String ettAvdid:allaAvdid){
+                    if(ettAvdid.equals(ID)){
+                        lblFelmeddelandeID.setVisible(true);
+                    }
+                }
+            }
+            catch(NumberFormatException ex){
+                lblFelmeddelandeID.setVisible(true);
+            }
+            try{
+                String stad = tfStad.getText();
+                String selectAllaStader = "select sid from stad;";
+                ArrayList<String> allaStader = idb.fetchColumn(selectAllaStader);
+                stadsID = Integer.parseInt(stad);
+                for(String enStad:allaStader){
+                    if(enStad.equals(stad)){
+                        lblFelmeddelandeID.setVisible(true);
+                    }
+                }
+            }
+            catch(NumberFormatException ex){
+                lblFelmeddelandeStadsID.setVisible(true);
+            }
+            try{
+                String ID = tfID.getText();
+                String selectAllaAvdid = "select avdid from avdelning;";
+                ArrayList<String> allaAvdid = idb.fetchColumn(selectAllaAvdid);
+                avdid = Integer.parseInt(ID);
+                for(String ettAvdid:allaAvdid){
+                    if(ettAvdid.equals(ID)){
+                        lblFelmeddelandeID.setVisible(true);
+                    }
+                }
+            }
+            catch(NumberFormatException ex){
+                lblFelmeddelandeID.setVisible(true);
+            }
         
-        int avdid = Integer.parseInt(textID);
-        int stadsID = Integer.parseInt(stad);
-        int chefsID = Integer.parseInt(chef);
+            String namn = tfNamn.getText();
+            String beskrivning = tfBeskrivning.getText();
+            String adress = tfAdress.getText();
+            String epost = tfEpost.getText(); //Kolla så att det verkligen är en epost-adress!
+            String telefon = tfTelefonnummer.getText();
+            
+            String chef = tfAvdelningschefID.getText();
+        
+            
+            int chefsID = Integer.parseInt(chef);
 
-        String insertNyAvdelning = "insert into avdelning (avdid,namn,beskrivning,adress,epost,telefon,stad,chef) values "
-                + "(" + avdid + ",'" + namn + "','" + beskrivning + "','" + adress + "','" + epost + "','" + telefon + "',"
-                + stadsID + "," + chefsID +");";
-        idb.insert(insertNyAvdelning);
+            String insertNyAvdelning = "insert into avdelning (avdid,namn,beskrivning,adress,epost,telefon,stad,chef) values "
+                    + "(" + avdid + ",'" + namn + "','" + beskrivning + "','" + adress + "','" + epost + "','" + telefon + "',"
+                    + stadsID + "," + chefsID +");";
+            idb.insert(insertNyAvdelning);
         }
         catch(InfException | NumberFormatException ex){ //Catch InfExceptions?
-            System.out.println(ex);
+                System.out.println(ex);
         }
         new AllaAvdelningar(idb,inloggadAnvandare).setVisible(true);
         this.setVisible(false);
@@ -368,6 +450,11 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
     private javax.swing.JLabel lblAvdelningschefID;
     private javax.swing.JLabel lblBeskrivning;
     private javax.swing.JLabel lblEpost;
+    private javax.swing.JLabel lblFelmeddelandeAvdelningschef;
+    private javax.swing.JLabel lblFelmeddelandeEpost;
+    private javax.swing.JLabel lblFelmeddelandeID;
+    private javax.swing.JLabel lblFelmeddelandeStadsID;
+    private javax.swing.JLabel lblFelmeddelandeTel;
     private javax.swing.JLabel lblID;
     private javax.swing.JLabel lblNamn;
     private javax.swing.JLabel lblStad;

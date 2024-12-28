@@ -35,7 +35,7 @@ public class AllaAvdelningar extends javax.swing.JFrame {
         this.inloggadAnvandare = inloggadAnvandare;
         this.idb = idb;
         initComponents();
-        populateListFromDatabase();
+        avdelningar();
     }
     
     public int antalAvdelningar(){
@@ -51,7 +51,7 @@ public class AllaAvdelningar extends javax.swing.JFrame {
         return antal;
     }
     
-    public void populateListFromDatabase() {
+    public void avdelningar() {
         // Skapa en ArrayList för att hålla data från databasen
         ArrayList<String> avdelningsID = new ArrayList<>();
         ArrayList<String> avdelningsnamn = new ArrayList<>();
@@ -64,7 +64,7 @@ public class AllaAvdelningar extends javax.swing.JFrame {
         ArrayList<String> avdelningschefENamn = new ArrayList<>();
         try{
             // SQL-fråga för att hämta id
-            String selectAvdid = "select avdid from avdelning;";
+            String selectAvdid = "select avdid from avdelning order by(avdid) asc;";
             avdelningsID = idb.fetchColumn(selectAvdid);
             // SQL-fråga för att hämta namnet
             String selectAvdelningsnamn = "select namn from avdelning;";
@@ -82,7 +82,7 @@ public class AllaAvdelningar extends javax.swing.JFrame {
             String selectTelefon = "select telefon from avdelning;";
             telefon = idb.fetchColumn(selectTelefon);
             
-            String selectAllaAvdelningar = "select avdid from avdelning;";
+            String selectAllaAvdelningar = "select avdid from avdelning order by(avdid) asc;";
             allaAvdelningar = idb.fetchColumn(selectAllaAvdelningar);
             
             String selectAvdelningschefFNamn = "select fornamn from anstalld where aid in (select chef from avdelning);";
