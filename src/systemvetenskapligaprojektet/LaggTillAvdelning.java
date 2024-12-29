@@ -18,6 +18,7 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
     private String inloggadAnvandare;
     private int avdid;
     private int stadsID;
+    private int chefsID;
     /**
      * Creates new form LaggTillAvdelning
      */
@@ -293,9 +294,10 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
     private void tfAdressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfAdressActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfAdressActionPerformed
-
-    
+   
     private void btnLaggTillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaggTillActionPerformed
+        boolean hasError = false;
+        boolean hittad = false;
         try{
             try{
                 String ID = tfID.getText();
@@ -305,62 +307,81 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
                 for(String ettAvdid:allaAvdid){
                     if(ettAvdid.equals(ID)){
                         lblFelmeddelandeID.setVisible(true);
+                        hasError = true;
                     }
                 }
             }
             catch(NumberFormatException ex){
                 lblFelmeddelandeID.setVisible(true);
+                hasError = true;    
             }
-            try{
-                String stad = tfStad.getText();
-                String selectAllaStader = "select sid from stad;";
-                ArrayList<String> allaStader = idb.fetchColumn(selectAllaStader);
-                stadsID = Integer.parseInt(stad);
-                for(String enStad:allaStader){
-                    if(enStad.equals(stad)){
-                        lblFelmeddelandeID.setVisible(true);
+            if(!hasError){
+                try{
+                    hittad = false;
+                    String stad = tfStad.getText();
+                    String selectAllaStader = "select sid from stad;";
+                    ArrayList<String> allaStader = idb.fetchColumn(selectAllaStader);
+                    stadsID = Integer.parseInt(stad);
+                    for(String enStad:allaStader){
+                        int enStadsID = Integer.parseInt(enStad);
+                        if(enStadsID==stadsID){
+                            hittad = true;
+                            break;
+                        }
+                    }
+                    if(!hittad){
+                        lblFelmeddelandeStadsID.setVisible(true);
+                        hasError = true;
                     }
                 }
-            }
-            catch(NumberFormatException ex){
-                lblFelmeddelandeStadsID.setVisible(true);
-            }
-            try{
-                String ID = tfID.getText();
-                String selectAllaAvdid = "select avdid from avdelning;";
-                ArrayList<String> allaAvdid = idb.fetchColumn(selectAllaAvdid);
-                avdid = Integer.parseInt(ID);
-                for(String ettAvdid:allaAvdid){
-                    if(ettAvdid.equals(ID)){
-                        lblFelmeddelandeID.setVisible(true);
-                    }
+                catch(NumberFormatException ex){
+                    System.out.println("Hej");
+                    lblFelmeddelandeStadsID.setVisible(true);
+                    hasError = true;
                 }
             }
-            catch(NumberFormatException ex){
-                lblFelmeddelandeID.setVisible(true);
+            if(!hasError){
+                try{
+                    hittad = false;
+                    String chef = tfAvdelningschefID.getText();
+                    String selectAllaHandlaggare = "select aid from handlaggare;";
+                    ArrayList<String> allaHandlaggare = idb.fetchColumn(selectAllaHandlaggare);
+                    chefsID = Integer.parseInt(chef);
+                    for(String enHandlaggare:allaHandlaggare){
+                        int handlaggarID = Integer.parseInt(enHandlaggare);
+                        if(handlaggarID==chefsID){
+                            hittad = true;
+                            break;
+                        }
+                    }
+                    if(!hittad){
+                        lblFelmeddelandeAvdelningschef.setVisible(true);
+                        hasError = true;
+                    }
+                }
+                catch(NumberFormatException ex){
+                    lblFelmeddelandeAvdelningschef.setVisible(true);
+                    hasError = true;
+                }
             }
-        
-            String namn = tfNamn.getText();
-            String beskrivning = tfBeskrivning.getText();
-            String adress = tfAdress.getText();
-            String epost = tfEpost.getText(); //Kolla så att det verkligen är en epost-adress!
-            String telefon = tfTelefonnummer.getText();
-            
-            String chef = tfAvdelningschefID.getText();
-        
-            
-            int chefsID = Integer.parseInt(chef);
+            if(!hasError){
+                String namn = tfNamn.getText();
+                String beskrivning = tfBeskrivning.getText();
+                String adress = tfAdress.getText();
+                String epost = tfEpost.getText(); //Kolla så att det verkligen är en epost-adress!
+                String telefon = tfTelefonnummer.getText();
 
-            String insertNyAvdelning = "insert into avdelning (avdid,namn,beskrivning,adress,epost,telefon,stad,chef) values "
-                    + "(" + avdid + ",'" + namn + "','" + beskrivning + "','" + adress + "','" + epost + "','" + telefon + "',"
-                    + stadsID + "," + chefsID +");";
-            idb.insert(insertNyAvdelning);
+                String insertNyAvdelning = "insert into avdelning (avdid,namn,beskrivning,adress,epost,telefon,stad,chef) values "
+                        + "(" + avdid + ",'" + namn + "','" + beskrivning + "','" + adress + "','" + epost + "','" + telefon + "',"
+                        + stadsID + "," + chefsID + ");";
+                idb.insert(insertNyAvdelning);
+                new AllaAvdelningar(idb,inloggadAnvandare).setVisible(true);
+                this.setVisible(false);
+            }
         }
-        catch(InfException | NumberFormatException ex){ //Catch InfExceptions?
+        catch(InfException ex){ //Catch InfExceptions?
                 System.out.println(ex);
         }
-        new AllaAvdelningar(idb,inloggadAnvandare).setVisible(true);
-        this.setVisible(false);
     }//GEN-LAST:event_btnLaggTillActionPerformed
 
     private void tfNamnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNamnActionPerformed
