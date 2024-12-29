@@ -26,7 +26,6 @@ public class AllaAvdelningar extends javax.swing.JFrame {
     private DefaultListModel<String> listModelStad = new DefaultListModel<>(); //Skapar list modeller som kan visas i gränssnittet
     private DefaultListModel<String> listModelAvdelningschefFNamn = new DefaultListModel<>(); //Skapar list modeller som kan visas i gränssnittet
     private DefaultListModel<String> listModelAvdelningschefENamn = new DefaultListModel<>(); //Skapar list modeller som kan visas i gränssnittet
-    private String antalAvdelningar;
 
     /**
      * Creates new form AllaAvdelningar
@@ -38,7 +37,7 @@ public class AllaAvdelningar extends javax.swing.JFrame {
         avdelningar();
     }
     
-    public int antalAvdelningar(){
+    /*public int antalAvdelningar(){
         int antal = 0;
         try{
         String selectAntalAvdelningar = "select count(avdid) from avdelning;";
@@ -49,7 +48,7 @@ public class AllaAvdelningar extends javax.swing.JFrame {
             System.out.println(ex);
         }
         return antal;
-    }
+    }*/
     
     public void avdelningar() {
         // Skapa en ArrayList för att hålla data från databasen
