@@ -6,6 +6,9 @@ package systemvetenskapligaprojektet;
 import oru.inf.InfDB; //importeras i alla klasser som vi ska använda
 import oru.inf.InfException; //importeras i alla klasser som vi ska använda
 import java.lang.NumberFormatException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.text.ParseException;
 /**
 /**
  *
@@ -226,17 +229,20 @@ public class LaggTillAnstalld extends javax.swing.JFrame {
            String telefon = tfAnstallningsTelefonnummer.getText();
            String anstallningsDatum = tfAnstallningsDatum.getText();
            String losenord = tfAnstallningsLosenord.getText();
-           String avdelningsID = tfAnstallningsFornamn.getText(); //Kolla så att det verkligen är en epost-adress!
+           String avdelningsID = tfAnstallningsAvdelning.getText(); //Kolla så att det verkligen är en epost-adress!
            
            int aid = Integer.parseInt(textAID);
            int avdelning = Integer.parseInt(avdelningsID);
            
-           String insertNyAnstalld = "insert into anstalld (aid, fornamn, efternamn, adress, epost, telefon, anstallningsDatum, losenord, avdelning) values "
-                + "(" + aid + ",'" + fornamn + "','" + efternamn + "','" + adress + "','" + epost + "','" + telefon + "',"
-                + anstallningsDatum + "," + losenord + "','" + avdelning + ");";
+           SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd"); // Konvertera anställningsdatum till rätt format
+           Date datumString = inputFormat.parse(anstallningsDatum); // Konvertera strängen till ett Date-objekt
+           
+           String datum = inputFormat.format(datumString);
+           
+           String insertNyAnstalld = "insert into anstalld (aid, fornamn, efternamn, adress, epost, telefon, anstallningsdatum, losenord, avdelning) values (" + aid + ", '" + fornamn + "', '" + efternamn + "', '" + adress + "', '" + epost + "', '" + telefon + "', '" + datum + "', '" + losenord + "', " + avdelning +");";
            idb.insert(insertNyAnstalld);
            }
-        catch(InfException | NumberFormatException ex){ //Catch InfExceptions?
+        catch(InfException | NumberFormatException | ParseException ex){ //Catch InfExceptions?
             System.out.println(ex);
             }
         new AllaAnstallda(idb,inloggadAnvandare).setVisible(true);
