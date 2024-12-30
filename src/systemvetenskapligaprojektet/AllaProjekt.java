@@ -3,13 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package systemvetenskapligaprojektet;
-import java.awt.event.ActionEvent; //Importeras för sökfunktionen
 import oru.inf.InfDB; //Ska importeras till alla klasser
 import oru.inf.InfException; //Samma sak här som ovan
 import javax.swing.DefaultListModel;
 import java.util.ArrayList;
+import java.awt.event.ActionEvent; //Importeras för sökfunktionen
+import javax.swing.JFrame; //Importeras för att skapa nya fönster för visning av sökresultatet
 import javax.swing.JList; //Importeras för att skapa en lista av alla listor
 import javax.swing.JOptionPane; //Importeras för att ta emot input från sökfunktionen
+import javax.swing.JScrollPane; //Importeras för för att lägga till en rullningsbar vy för JList
 
 /**
  *
@@ -27,38 +29,18 @@ public class AllaProjekt extends javax.swing.JFrame {
     private DefaultListModel<String> listModelPrioritet = new DefaultListModel<>();
     private DefaultListModel<String> listModelProjektchef = new DefaultListModel<>();
     private DefaultListModel<String> listModelLand = new DefaultListModel<>();
-    private DefaultListModel<String> listModelPartner = new DefaultListModel<>();
     
-
     /**
      * Creates new form Projekt
      */
     public AllaProjekt(InfDB idb, String inloggadAnvandare) {
         this.idb = idb;
         this.inloggadAnvandare = inloggadAnvandare;
-        populateListFromDatabase();
         initComponents();
+        populateListFromDatabase();
+        hanteraSearchListener(); //separat metod för sök
+    }
         
-        btnSok.addActionListener((ActionEvent e) -> {
-            String sokTerm = JOptionPane.showInputDialog("");
-            JList<String>[] listor = new JList[] {
-                listProjektID, listProjektnamn, listBeskrivning, listStatus,
-                listStartdatum, listSlutdatum, listPrioritet, listProjektchef,
-                listLand, listPartner};
-            // Gå igenom varje lista och leta efter sökordet
-            for (JList<String> lista : listor) {
-                DefaultListModel<String> model = (DefaultListModel<String>) lista.getModel();
-                for (int i = 0; i < model.getSize(); i++) {
-                    if (model.getElementAt(i).equals(sokTerm)) {
-                        lista.setSelectedIndex(i); // Markera sökträffen
-                        lista.ensureIndexIsVisible(i); // Scrolla till sökträffen
-                        return; // Avsluta vid första sökträffen
-                    }
-                }
-            }
-        }); //Stänger Actionlistenern 
-    }            
-                  
     public void populateListFromDatabase()
     {
         ArrayList<String> ProjektID = new ArrayList<>();
@@ -70,7 +52,6 @@ public class AllaProjekt extends javax.swing.JFrame {
         ArrayList<String> Prioritet = new ArrayList<>();
         ArrayList<String> Projektchef = new ArrayList<>();
         ArrayList<String> Land = new ArrayList<>();
-        ArrayList<String> Partner = new ArrayList<>();
        
         try{
             String selectpid = "select pid from projekt;";
@@ -99,9 +80,7 @@ public class AllaProjekt extends javax.swing.JFrame {
             
             String selectland = "select land from projekt;";
             Land = idb.fetchColumn(selectland);
-            
-            String selectpartner = "select partner from projekt;";
-            Partner = idb.fetchColumn(selectpartner);   
+               
         }
         catch (InfException ex) {
             ex.printStackTrace();
@@ -143,10 +122,6 @@ public class AllaProjekt extends javax.swing.JFrame {
         {
             listModelLand.addElement(ettland);
         }
-        for(String ettpartner:Partner)
-        {
-            listModelPartner.addElement(ettpartner);
-        }
         listProjektID.setModel(listModelID);
         listProjektnamn.setModel(listModelNamn);
         listBeskrivning.setModel(listModelBeskrivning);
@@ -156,7 +131,93 @@ public class AllaProjekt extends javax.swing.JFrame {
         listPrioritet.setModel(listModelPrioritet);
         listProjektchef.setModel(listModelProjektchef);
         listLand.setModel(listModelLand);
-        listPartner.setModel(listModelPartner);        
+    }
+    
+    private void hanteraSearchListener() {
+        btnSok.addActionListener((ActionEvent e) -> {
+            String sokTerm = JOptionPane.showInputDialog("Ange datumspann (yyyy-MM-dd till yyyy-MM-dd) eller status:");
+            if (sokTerm == null || sokTerm.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Du måste ange en sökterm.");
+                return;
+            }
+            if (sokTerm.contains("till")) {
+                hanteraDatumSpannSok(sokTerm);
+            } else {
+                hanteraStatusSok(sokTerm);
+            }
+        });
+    }
+
+     //Sökfunktion för datumspann
+    private void hanteraDatumSpannSok(String sokTerm) {
+        if (sokTerm.contains("till")) {
+            String[] datum = sokTerm.split("till");
+            if (datum.length == 2) {
+                String startDatum = datum[0].trim();
+                String slutDatum = datum[1].trim();
+
+                DefaultListModel<String> matchandeProjekt = new DefaultListModel<>();
+
+                for (int i = 0; i < listStartdatum.getModel().getSize(); i++) {
+                    String projektStart = listStartdatum.getModel().getElementAt(i);
+                    String projektSlut = listSlutdatum.getModel().getElementAt(i);
+
+                    if (projektStart.compareTo(startDatum) >= 0 && projektSlut.compareTo(slutDatum) <= 0) {
+                        String projektInfo = String.format(
+                                "ID: %s, Namn: %s, Start: %s, Slut: %s",
+                                listProjektID.getModel().getElementAt(i),
+                                listProjektnamn.getModel().getElementAt(i),
+                                projektStart,
+                                projektSlut
+                        );
+                        matchandeProjekt.addElement(projektInfo);
+                    }
+                }
+
+                if (!matchandeProjekt.isEmpty()) {
+                    JFrame resultatFönster = new JFrame("Sökresultat för datumspann");
+                    JList<String> resultatLista = new JList<>(matchandeProjekt);
+                    resultatFönster.add(new JScrollPane(resultatLista));
+                    resultatFönster.setSize(500, 400);
+                    resultatFönster.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Inget projekt hittades i angivet datumspann.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Felaktigt format för datumspann. Använd 'yyyy-MM-dd till yyyy-MM-dd'.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Felaktigt format för datumspann. Använd 'yyyy-MM-dd till yyyy-MM-dd'.");
+        }
+}       
+            
+
+    
+    private void hanteraStatusSok(String sokTerm) {
+        //Sökfunktion för status
+        DefaultListModel<String> matchandeProjekt = new DefaultListModel<>();
+
+        for (int i = 0; i < listStatus.getModel().getSize(); i++) {
+            if (listStatus.getModel().getElementAt(i).equalsIgnoreCase(sokTerm)) {
+                String projektInfo = String.format("ID: %s, Namn: %s, Start: %s, Slut: %s, Status: %s",
+                        listProjektID.getModel().getElementAt(i),
+                        listProjektnamn.getModel().getElementAt(i),
+                        listStartdatum.getModel().getElementAt(i),
+                        listSlutdatum.getModel().getElementAt(i),
+                        listStatus.getModel().getElementAt(i));
+                matchandeProjekt.addElement(projektInfo);
+            }
+        }
+
+        if (!matchandeProjekt.isEmpty()) {
+            JFrame resultatFönster = new JFrame("Sökresultat för status");
+            JList<String> resultatLista = new JList<>(matchandeProjekt);
+            resultatFönster.add(new JScrollPane(resultatLista));
+            resultatFönster.setSize(500, 400);
+            resultatFönster.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Inga projekt hittades med status: " + sokTerm);
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -176,7 +237,6 @@ public class AllaProjekt extends javax.swing.JFrame {
         lblPrioritet = new javax.swing.JLabel();
         lblProjektChef = new javax.swing.JLabel();
         lblLand = new javax.swing.JLabel();
-        lblPartner = new javax.swing.JLabel();
         btnTillbaka = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         listProjektID = new javax.swing.JList<>();
@@ -196,10 +256,7 @@ public class AllaProjekt extends javax.swing.JFrame {
         listProjektchef = new javax.swing.JList<>();
         jScrollPane9 = new javax.swing.JScrollPane();
         listLand = new javax.swing.JList<>();
-        jScrollPane10 = new javax.swing.JScrollPane();
-        listPartner = new javax.swing.JList<>();
         btnSok = new javax.swing.JButton();
-        txtSok = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -220,8 +277,6 @@ public class AllaProjekt extends javax.swing.JFrame {
         lblProjektChef.setText("Projektchef");
 
         lblLand.setText("Land");
-
-        lblPartner.setText("Partner");
 
         btnTillbaka.setText("Tillbaka");
         btnTillbaka.addActionListener(new java.awt.event.ActionListener() {
@@ -293,20 +348,7 @@ public class AllaProjekt extends javax.swing.JFrame {
         });
         jScrollPane9.setViewportView(listLand);
 
-        listPartner.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane10.setViewportView(listPartner);
-
         btnSok.setText("Sök");
-
-        txtSok.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSokActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -315,94 +357,96 @@ public class AllaProjekt extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblSlutdatum)
-                            .addComponent(lblProjektID)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(33, 33, 33)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(lblProjektNamn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(11, 11, 11)
-                                    .addComponent(lblPrioritet))
-                                .addComponent(jScrollPane2)))
-                        .addGap(41, 41, 41)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lblBeskrivning, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblProjektChef)
-                                    .addComponent(jScrollPane3))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(48, 48, 48)
-                                        .addComponent(lblStatus))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(46, 46, 46)
-                                        .addComponent(lblLand))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(38, 38, 38)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jScrollPane9)
-                                            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)))))
-                            .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(13, 30, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane5)))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btnTillbaka)
-                        .addGap(246, 246, 246)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSok))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblSlutdatum)
+                                    .addComponent(lblProjektID)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(65, 65, 65)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lblProjektNamn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane2))
+                                .addGap(62, 62, 62)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblBeskrivning)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(70, 70, 70)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblPrioritet))
+                                .addGap(64, 64, 64)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblProjektChef)
+                                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblStartdatum)
-                                    .addComponent(lblPartner))
-                                .addGap(8, 8, 8))
+                                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblLand))
+                                .addGap(77, 77, 77))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(txtSok, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSok)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblStatus)
+                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(43, 43, 43)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblStartdatum))
+                        .addGap(0, 14, Short.MAX_VALUE)))
                 .addGap(21, 21, 21))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblProjektID)
-                    .addComponent(lblProjektNamn)
-                    .addComponent(lblBeskrivning)
-                    .addComponent(lblStatus)
-                    .addComponent(lblStartdatum))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(50, 50, 50)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblSlutdatum)
-                    .addComponent(lblPrioritet)
-                    .addComponent(lblProjektChef)
-                    .addComponent(lblLand)
-                    .addComponent(lblPartner))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblProjektID)
+                                    .addComponent(lblProjektNamn))
+                                .addComponent(lblBeskrivning, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(lblStartdatum, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(50, 50, 50)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(lblSlutdatum)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(lblPrioritet)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblProjektChef)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblStatus)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(lblLand)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
@@ -410,9 +454,7 @@ public class AllaProjekt extends javax.swing.JFrame {
                         .addGap(19, 19, 19))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnSok)
-                            .addComponent(txtSok, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnSok)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
@@ -421,12 +463,8 @@ public class AllaProjekt extends javax.swing.JFrame {
 
     private void btnTillbakaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTillbakaActionPerformed
     new MenyAdmin(idb, inloggadAnvandare).setVisible(true);
-    //this.dispose();
+    this.dispose();
     }//GEN-LAST:event_btnTillbakaActionPerformed
-
-    private void txtSokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSokActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSokActionPerformed
 
     /**
      * @param args the command line arguments
@@ -467,7 +505,6 @@ public class AllaProjekt extends javax.swing.JFrame {
     private javax.swing.JButton btnSok;
     private javax.swing.JButton btnTillbaka;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -478,7 +515,6 @@ public class AllaProjekt extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JLabel lblBeskrivning;
     private javax.swing.JLabel lblLand;
-    private javax.swing.JLabel lblPartner;
     private javax.swing.JLabel lblPrioritet;
     private javax.swing.JLabel lblProjektChef;
     private javax.swing.JLabel lblProjektID;
@@ -488,7 +524,6 @@ public class AllaProjekt extends javax.swing.JFrame {
     private javax.swing.JLabel lblStatus;
     private javax.swing.JList<String> listBeskrivning;
     private javax.swing.JList<String> listLand;
-    private javax.swing.JList<String> listPartner;
     private javax.swing.JList<String> listPrioritet;
     private javax.swing.JList<String> listProjektID;
     private javax.swing.JList<String> listProjektchef;
@@ -496,6 +531,5 @@ public class AllaProjekt extends javax.swing.JFrame {
     private javax.swing.JList<String> listSlutdatum;
     private javax.swing.JList<String> listStartdatum;
     private javax.swing.JList<String> listStatus;
-    private javax.swing.JTextField txtSok;
     // End of variables declaration//GEN-END:variables
 }

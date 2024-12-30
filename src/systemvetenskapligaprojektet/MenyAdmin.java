@@ -170,7 +170,7 @@ public class MenyAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAllaAnstalldaActionPerformed
 
     private void btnAllaProjektActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAllaProjektActionPerformed
-        
+        new AllaProjekt(idb, inloggadAnvandare).setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnAllaProjektActionPerformed
 
