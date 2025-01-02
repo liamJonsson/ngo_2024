@@ -11,14 +11,13 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author limme
  */
-public class AllaPartners extends javax.swing.JFrame {
-
+public class AllaAvdelningarTest extends javax.swing.JFrame {
     private static InfDB idb;
     private String inloggadAnvandare;
     /**
      * Creates new form AllaPartners
      */
-    public AllaPartners(InfDB idb, String inloggadAnvandare) {
+    public AllaAvdelningarTest(InfDB idb, String inloggadAnvandare) {
         this.idb = idb;
         this.inloggadAnvandare = inloggadAnvandare;
         initComponents();
@@ -27,14 +26,14 @@ public class AllaPartners extends javax.swing.JFrame {
     
     public void fyllTabell(){
         try{
-        String[] kolumnNamn = {"pid", "namn", "kontaktperson", "kontaktepost", "telefon", "adress", "branch", "stad"};
-        DefaultTableModel allaPartners = new DefaultTableModel(kolumnNamn, 0);
+        String[] kolumnNamn = {"avdid", "namn", "beskrivning", "adress", "epost", "telefon", "stad", "chef"};
+        DefaultTableModel allaAvdelningar = new DefaultTableModel(kolumnNamn, 0);
         
-        String selectPID = "select pid from projekt order by(pid);";
-        ArrayList<String> pid = idb.fetchColumn(selectPID);
-            if(pid != null){
-                for(String ettID:pid){
-                    String selectInfo = "select * from partner where pid = " + ettID + ";";
+        String selectAvdid = "select avdid from avdelning order by(avdid);";
+        ArrayList<String> avdid = idb.fetchColumn(selectAvdid);
+            if(avdid != null){
+                for(String ettID:avdid){
+                    String selectInfo = "select * from avdelning where avdid = " + ettID + ";";
                     HashMap<String,String> info = idb.fetchRow(selectInfo);
             
                     Object[] enRad = new Object[kolumnNamn.length];
@@ -43,9 +42,9 @@ public class AllaPartners extends javax.swing.JFrame {
                     for(String enKolumn:kolumnNamn){
                         enRad[index++] = info.get(enKolumn);
                     }
-                    allaPartners.addRow(enRad);
+                    allaAvdelningar.addRow(enRad);
                 }
-                tblPartners.setModel(allaPartners);
+                tblAvdelningar.setModel(allaAvdelningar);
             }
         }
         catch(InfException ex){
@@ -62,13 +61,21 @@ public class AllaPartners extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblPartners = new javax.swing.JTable();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblAvdelningar = new javax.swing.JTable();
+        jScrollBar1 = new javax.swing.JScrollBar();
+
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        tblPartners.setModel(new javax.swing.table.DefaultTableModel(
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setText("Alla Avdelningar");
+
+        tblAvdelningar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -79,34 +86,34 @@ public class AllaPartners extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tblPartners.setPreferredSize(new java.awt.Dimension(1600, 250));
-        jScrollPane1.setViewportView(tblPartners);
+        jScrollPane2.setViewportView(tblAvdelningar);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Alla Partners");
+        jScrollPane1.setViewportView(jScrollPane2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 3000, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1644, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 3000, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 206, Short.MAX_VALUE)
+                .addComponent(jScrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -129,27 +136,30 @@ public class AllaPartners extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AllaPartners.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AllaAvdelningarTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AllaPartners.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AllaAvdelningarTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AllaPartners.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AllaAvdelningarTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AllaPartners.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AllaAvdelningarTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                //new AllaPartners().setVisible(true);
+                //new AllaAvdelningarTest().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblPartners;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tblAvdelningar;
     // End of variables declaration//GEN-END:variables
 }
