@@ -5,43 +5,24 @@
 package systemvetenskapligaprojektet;
 import oru.inf.InfDB; //importeras i alla klasser som vi ska använda
 import oru.inf.InfException; //importeras i alla klasser som vi ska använda
-import java.util.*;
-import javax.swing.JTable;
-import javax.swing.JFrame;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import java.awt.*;
 import javax.swing.table.TableColumn;
 /**
  *
  * @author limme
  */
-public class AllaAvdelningarTest extends javax.swing.JFrame {
-    private static InfDB idb;
+public class TestTable extends javax.swing.JFrame {
+    private InfDB idb;
     private String inloggadAnvandare;
     /**
-     * Creates new form AllaPartners
+     * Creates new form TestTable
      */
-    public AllaAvdelningarTest(InfDB idb, String inloggadAnvandare) {
+    public TestTable(InfDB idb, String inloggadAnvandare) {
         this.idb = idb;
         this.inloggadAnvandare = inloggadAnvandare;
-        initComponents();
-        tblAvdelningar.setAutoResizeMode(tblAvdelningar.AUTO_RESIZE_OFF);
-        TableColumn col = tblAvdelningar.getColumnModel().getColumn(0);
-        col.setPreferredWidth(200);
-        col = tblAvdelningar.getColumnModel().getColumn(1);
-        col.setPreferredWidth(200);
-        col = tblAvdelningar.getColumnModel().getColumn(2);
-        col.setPreferredWidth(600);
-        col = tblAvdelningar.getColumnModel().getColumn(3);
-        col.setPreferredWidth(200);
-        col = tblAvdelningar.getColumnModel().getColumn(4);
-        col.setPreferredWidth(200);
-        col = tblAvdelningar.getColumnModel().getColumn(5);
-        col.setPreferredWidth(200);
-        col = tblAvdelningar.getColumnModel().getColumn(6);
-        col.setPreferredWidth(200);
+        initComponents();        
         fyllTabell();
     }
     
@@ -61,12 +42,46 @@ public class AllaAvdelningarTest extends javax.swing.JFrame {
                     int index = 0;
             
                     for(String enKolumn:kolumnNamn){
-                        enRad[index++] = info.get(enKolumn);
+                        if(enKolumn.equals("stad")){
+                            String selectStad = 
+                            "select namn from stad where sid = (select stad from avdelning where avdid = " + ettID + ");";
+                            String stad = idb.fetchSingle(selectStad);
+                            enRad[index++] = stad;
+                        }
+                        else if(enKolumn.equals("chef")){
+                            String selectChefFornamn = 
+                            "select fornamn from anstalld where aid = (select chef from avdelning where avdid = " + ettID + ");";
+                            String chefFornamn = idb.fetchSingle(selectChefFornamn);
+                            String selectChefEfternamn = 
+                            "select efternamn from anstalld where aid = (select chef from avdelning where avdid = " + ettID + ");";
+                            String chefEfternamn = idb.fetchSingle(selectChefEfternamn);
+                            String chefFulltNamn = chefFornamn + " " + chefEfternamn;
+                            enRad[index++] = chefFulltNamn;
+                        }
+                        else{
+                            enRad[index++] = info.get(enKolumn);}
                     }
                     allaAvdelningar.addRow(enRad);
                 }
-                tblAvdelningar.setModel(allaAvdelningar);
+                tblTest.setModel(allaAvdelningar);
             }
+            tblTest.setAutoResizeMode(tblTest.AUTO_RESIZE_OFF);
+        TableColumn col = tblTest.getColumnModel().getColumn(0);
+        col.setPreferredWidth(100);
+        col = tblTest.getColumnModel().getColumn(1);
+        col.setPreferredWidth(400);
+        col = tblTest.getColumnModel().getColumn(2);
+        col.setPreferredWidth(900);
+        col = tblTest.getColumnModel().getColumn(3);
+        col.setPreferredWidth(150);
+        col = tblTest.getColumnModel().getColumn(4);
+        col.setPreferredWidth(150);
+        col = tblTest.getColumnModel().getColumn(5);
+        col.setPreferredWidth(150);
+        col = tblTest.getColumnModel().getColumn(6);
+        col.setPreferredWidth(150);
+        col = tblTest.getColumnModel().getColumn(7);
+        col.setPreferredWidth(150);
         }
         catch(InfException ex){
             System.out.println(ex);
@@ -82,19 +97,13 @@ public class AllaAvdelningarTest extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblTest = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        scrAvdelningar = new javax.swing.JScrollPane();
-        tblAvdelningar = new javax.swing.JTable();
-
-        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Alla Avdelningar");
-
-        tblAvdelningar.setModel(new javax.swing.table.DefaultTableModel(
+        tblTest.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -105,34 +114,11 @@ public class AllaAvdelningarTest extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8"
             }
         ));
-        tblAvdelningar.setPreferredSize(new java.awt.Dimension(3000, 250));
-        scrAvdelningar.setViewportView(tblAvdelningar);
-        if (tblAvdelningar.getColumnModel().getColumnCount() > 0) {
-            tblAvdelningar.getColumnModel().getColumn(0).setMinWidth(100);
-            tblAvdelningar.getColumnModel().getColumn(0).setPreferredWidth(100);
-            tblAvdelningar.getColumnModel().getColumn(0).setMaxWidth(100);
-            tblAvdelningar.getColumnModel().getColumn(1).setMinWidth(500);
-            tblAvdelningar.getColumnModel().getColumn(1).setPreferredWidth(500);
-            tblAvdelningar.getColumnModel().getColumn(1).setMaxWidth(500);
-            tblAvdelningar.getColumnModel().getColumn(2).setMinWidth(600);
-            tblAvdelningar.getColumnModel().getColumn(2).setPreferredWidth(600);
-            tblAvdelningar.getColumnModel().getColumn(2).setMaxWidth(600);
-            tblAvdelningar.getColumnModel().getColumn(3).setMinWidth(300);
-            tblAvdelningar.getColumnModel().getColumn(3).setPreferredWidth(300);
-            tblAvdelningar.getColumnModel().getColumn(3).setMaxWidth(300);
-            tblAvdelningar.getColumnModel().getColumn(4).setMinWidth(200);
-            tblAvdelningar.getColumnModel().getColumn(4).setPreferredWidth(200);
-            tblAvdelningar.getColumnModel().getColumn(4).setMaxWidth(200);
-            tblAvdelningar.getColumnModel().getColumn(5).setMinWidth(200);
-            tblAvdelningar.getColumnModel().getColumn(5).setPreferredWidth(200);
-            tblAvdelningar.getColumnModel().getColumn(5).setMaxWidth(200);
-            tblAvdelningar.getColumnModel().getColumn(6).setMinWidth(100);
-            tblAvdelningar.getColumnModel().getColumn(6).setPreferredWidth(100);
-            tblAvdelningar.getColumnModel().getColumn(6).setMaxWidth(100);
-            tblAvdelningar.getColumnModel().getColumn(7).setMinWidth(100);
-            tblAvdelningar.getColumnModel().getColumn(7).setPreferredWidth(100);
-            tblAvdelningar.getColumnModel().getColumn(7).setMaxWidth(100);
-        }
+        tblTest.setEnabled(false);
+        jScrollPane1.setViewportView(tblTest);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setText("Alla Avdelningar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -141,10 +127,10 @@ public class AllaAvdelningarTest extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrAvdelningar)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1968, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(0, 1825, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -152,8 +138,9 @@ public class AllaAvdelningarTest extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(scrAvdelningar, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -176,28 +163,27 @@ public class AllaAvdelningarTest extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AllaAvdelningarTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TestTable.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AllaAvdelningarTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TestTable.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AllaAvdelningarTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TestTable.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AllaAvdelningarTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TestTable.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                //new AllaAvdelningarTest().setVisible(true);
+                //new TestTable().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JScrollPane scrAvdelningar;
-    private javax.swing.JTable tblAvdelningar;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblTest;
     // End of variables declaration//GEN-END:variables
 }
