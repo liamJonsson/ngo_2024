@@ -103,6 +103,9 @@ public class TestTable extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTest = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        btnTillbaka = new javax.swing.JButton();
+        btnLäggTill = new javax.swing.JButton();
+        btnRedigera = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -128,6 +131,27 @@ public class TestTable extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Alla Avdelningar");
 
+        btnTillbaka.setText("Tillbaka");
+        btnTillbaka.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTillbakaActionPerformed(evt);
+            }
+        });
+
+        btnLäggTill.setText("Lägg Till");
+        btnLäggTill.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLäggTillActionPerformed(evt);
+            }
+        });
+
+        btnRedigera.setText("Redigera");
+        btnRedigera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRedigeraActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -135,9 +159,16 @@ public class TestTable extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1888, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1403, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnTillbaka)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnLäggTill)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnRedigera)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -148,6 +179,11 @@ public class TestTable extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnTillbaka)
+                    .addComponent(btnLäggTill)
+                    .addComponent(btnRedigera))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -162,6 +198,21 @@ public class TestTable extends javax.swing.JFrame {
             this.setVisible(false);
         }
     }//GEN-LAST:event_tblTestMouseClicked
+
+    private void btnTillbakaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTillbakaActionPerformed
+        new MenyAdmin(idb,inloggadAnvandare).setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnTillbakaActionPerformed
+
+    private void btnLäggTillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLäggTillActionPerformed
+        new LaggTillAvdelning(idb,inloggadAnvandare).setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnLäggTillActionPerformed
+
+    private void btnRedigeraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRedigeraActionPerformed
+        new RedigeraAvdelning(idb,inloggadAnvandare).setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnRedigeraActionPerformed
 
     /**
      * @param args the command line arguments
@@ -199,6 +250,9 @@ public class TestTable extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLäggTill;
+    private javax.swing.JButton btnRedigera;
+    private javax.swing.JButton btnTillbaka;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblTest;
