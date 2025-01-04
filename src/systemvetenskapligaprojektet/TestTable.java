@@ -42,7 +42,10 @@ public class TestTable extends javax.swing.JFrame {
                     int index = 0;
             
                     for(String enKolumn:kolumnNamn){
-                        if(enKolumn.equals("stad")){
+                        if(enKolumn.equals("beskrivning")){
+                            enRad[index++] = "Se beskrivning";
+                        }
+                        else if(enKolumn.equals("stad")){
                             String selectStad = 
                             "select namn from stad where sid = (select stad from avdelning where avdid = " + ettID + ");";
                             String stad = idb.fetchSingle(selectStad);
@@ -66,22 +69,22 @@ public class TestTable extends javax.swing.JFrame {
                 tblTest.setModel(allaAvdelningar);
             }
             tblTest.setAutoResizeMode(tblTest.AUTO_RESIZE_OFF);
-        TableColumn col = tblTest.getColumnModel().getColumn(0);
-        col.setPreferredWidth(100);
-        col = tblTest.getColumnModel().getColumn(1);
-        col.setPreferredWidth(400);
-        col = tblTest.getColumnModel().getColumn(2);
-        col.setPreferredWidth(900);
-        col = tblTest.getColumnModel().getColumn(3);
-        col.setPreferredWidth(150);
-        col = tblTest.getColumnModel().getColumn(4);
-        col.setPreferredWidth(150);
-        col = tblTest.getColumnModel().getColumn(5);
-        col.setPreferredWidth(150);
-        col = tblTest.getColumnModel().getColumn(6);
-        col.setPreferredWidth(150);
-        col = tblTest.getColumnModel().getColumn(7);
-        col.setPreferredWidth(150);
+            TableColumn col = tblTest.getColumnModel().getColumn(0);
+            col.setPreferredWidth(100);
+            col = tblTest.getColumnModel().getColumn(1);
+            col.setPreferredWidth(400);
+            col = tblTest.getColumnModel().getColumn(2);
+            col.setPreferredWidth(150);
+            col = tblTest.getColumnModel().getColumn(3);
+            col.setPreferredWidth(150);
+            col = tblTest.getColumnModel().getColumn(4);
+            col.setPreferredWidth(150);
+            col = tblTest.getColumnModel().getColumn(5);
+            col.setPreferredWidth(150);
+            col = tblTest.getColumnModel().getColumn(6);
+            col.setPreferredWidth(150);
+            col = tblTest.getColumnModel().getColumn(7);
+            col.setPreferredWidth(150);
         }
         catch(InfException ex){
             System.out.println(ex);
@@ -115,6 +118,11 @@ public class TestTable extends javax.swing.JFrame {
             }
         ));
         tblTest.setEnabled(false);
+        tblTest.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblTestMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblTest);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -127,7 +135,7 @@ public class TestTable extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1968, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1888, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -145,6 +153,15 @@ public class TestTable extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tblTestMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTestMouseClicked
+        int column = tblTest.columnAtPoint(evt.getPoint());
+        System.out.println(column);
+        if(column == 2){
+            new BeskrivningAvdelningar(idb,inloggadAnvandare).setVisible(true);
+            this.setVisible(false);
+        }
+    }//GEN-LAST:event_tblTestMouseClicked
 
     /**
      * @param args the command line arguments

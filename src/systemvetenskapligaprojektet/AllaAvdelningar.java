@@ -151,6 +151,70 @@ public class AllaAvdelningar extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
+    /*
+    public void fyllTabell(){
+        try{
+        String[] kolumnNamn = {"avdid", "namn", "beskrivning", "adress", "epost", "telefon", "stad", "chef"};
+        DefaultTableModel allaAvdelningar = new DefaultTableModel(kolumnNamn, 0);
+        
+        String selectAvdid = "select avdid from avdelning order by(avdid);";
+        ArrayList<String> avdid = idb.fetchColumn(selectAvdid);
+            if(avdid != null){
+                for(String ettID:avdid){
+                    String selectInfo = "select * from avdelning where avdid = " + ettID + ";";
+                    HashMap<String,String> info = idb.fetchRow(selectInfo);
+            
+                    Object[] enRad = new Object[kolumnNamn.length];
+                    int index = 0;
+            
+                    for(String enKolumn:kolumnNamn){
+                        if(enKolumn.equals("stad")){
+                            String selectStad = 
+                            "select namn from stad where sid = (select stad from avdelning where avdid = " + ettID + ");";
+                            String stad = idb.fetchSingle(selectStad);
+                            enRad[index++] = stad;
+                        }
+                        else if(enKolumn.equals("chef")){
+                            String selectChefFornamn = 
+                            "select fornamn from anstalld where aid = (select chef from avdelning where avdid = " + ettID + ");";
+                            String chefFornamn = idb.fetchSingle(selectChefFornamn);
+                            String selectChefEfternamn = 
+                            "select efternamn from anstalld where aid = (select chef from avdelning where avdid = " + ettID + ");";
+                            String chefEfternamn = idb.fetchSingle(selectChefEfternamn);
+                            String chefFulltNamn = chefFornamn + " " + chefEfternamn;
+                            enRad[index++] = chefFulltNamn;
+                        }
+                        else{
+                            enRad[index++] = info.get(enKolumn);}
+                    }
+                    allaAvdelningar.addRow(enRad);
+                }
+                tblTest.setModel(allaAvdelningar);
+            }
+            tblTest.setAutoResizeMode(tblTest.AUTO_RESIZE_OFF);
+        TableColumn col = tblTest.getColumnModel().getColumn(0);
+        col.setPreferredWidth(100);
+        col = tblTest.getColumnModel().getColumn(1);
+        col.setPreferredWidth(400);
+        col = tblTest.getColumnModel().getColumn(2);
+        col.setPreferredWidth(900);
+        col = tblTest.getColumnModel().getColumn(3);
+        col.setPreferredWidth(150);
+        col = tblTest.getColumnModel().getColumn(4);
+        col.setPreferredWidth(150);
+        col = tblTest.getColumnModel().getColumn(5);
+        col.setPreferredWidth(150);
+        col = tblTest.getColumnModel().getColumn(6);
+        col.setPreferredWidth(150);
+        col = tblTest.getColumnModel().getColumn(7);
+        col.setPreferredWidth(150);
+        }
+        catch(InfException ex){
+            System.out.println(ex);
+        }       
+    }*/
+    
+    /*
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -191,6 +255,7 @@ public class AllaAvdelningar extends javax.swing.JFrame {
         lblAllaAvdelningar = new javax.swing.JLabel();
         jScrollPane9 = new javax.swing.JScrollPane();
         listChefENamn = new javax.swing.JList<>();
+        btnRedigera = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1550, 300));
@@ -299,6 +364,8 @@ public class AllaAvdelningar extends javax.swing.JFrame {
         });
         jScrollPane9.setViewportView(listChefENamn);
 
+        btnRedigera.setText("Redigera");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -324,11 +391,13 @@ public class AllaAvdelningar extends javax.swing.JFrame {
                                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnLaggTill, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnLaggTill)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSok, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnRedigera)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnTillbaka)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnSok, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -390,8 +459,9 @@ public class AllaAvdelningar extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLaggTill)
                     .addComponent(btnSok)
-                    .addComponent(btnTillbaka, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(43, Short.MAX_VALUE))
+                    .addComponent(btnTillbaka, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRedigera))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -448,6 +518,7 @@ public class AllaAvdelningar extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLaggTill;
+    private javax.swing.JButton btnRedigera;
     private javax.swing.JButton btnSok;
     private javax.swing.JButton btnTillbaka;
     private javax.swing.JScrollPane jScrollPane1;
