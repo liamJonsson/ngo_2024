@@ -335,7 +335,6 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
                     }
                 }
                 catch(NumberFormatException ex){
-                    System.out.println("Hej");
                     lblFelmeddelandeStadsID.setVisible(true);
                     hasError = true;
                 }
@@ -375,7 +374,7 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
                         + "(" + avdid + ",'" + namn + "','" + beskrivning + "','" + adress + "','" + epost + "','" + telefon + "',"
                         + stadsID + "," + chefsID + ");";
                 idb.insert(insertNyAvdelning);
-                new AllaAvdelningar(idb,inloggadAnvandare).setVisible(true);
+                new TestTable(idb,inloggadAnvandare).setVisible(true);
                 this.setVisible(false);
             }
         }

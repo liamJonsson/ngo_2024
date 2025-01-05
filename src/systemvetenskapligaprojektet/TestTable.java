@@ -192,7 +192,6 @@ public class TestTable extends javax.swing.JFrame {
 
     private void tblTestMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTestMouseClicked
         int column = tblTest.columnAtPoint(evt.getPoint());
-        System.out.println(column);
         if(column == 2){
             new BeskrivningAvdelningar(idb,inloggadAnvandare).setVisible(true);
             this.setVisible(false);
