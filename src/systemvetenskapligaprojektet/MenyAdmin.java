@@ -155,17 +155,17 @@ public class MenyAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAllaAvdelningarActionPerformed
 
     private void btnAllaPartnersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAllaPartnersActionPerformed
-        new AllaPartners(idb,inloggadAnvandare).setVisible(true);
+
         this.setVisible(false);
     }//GEN-LAST:event_btnAllaPartnersActionPerformed
 
     private void btnMinaSidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinaSidorActionPerformed
-        new MinaSidor(idb).setVisible(true);
+        new MinaSidor(idb,inloggadAnvandare).setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnMinaSidorActionPerformed
 
     private void btnAllaAnstalldaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAllaAnstalldaActionPerformed
-        new AllaAnstallda(idb,inloggadAnvandare).setVisible(true);
+
         this.setVisible(false);
     }//GEN-LAST:event_btnAllaAnstalldaActionPerformed
 

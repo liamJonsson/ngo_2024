@@ -42,6 +42,8 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         lblID = new javax.swing.JLabel();
         lblNamn = new javax.swing.JLabel();
@@ -66,6 +68,19 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
         lblFelmeddelandeEpost = new javax.swing.JLabel();
         lblFelmeddelandeTel = new javax.swing.JLabel();
         lblFelmeddelandeStadsID = new javax.swing.JLabel();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -112,47 +127,7 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
             }
         });
 
-        tfBeskrivning.setEditable(false);
-        tfBeskrivning.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tfBeskrivningMouseClicked(evt);
-            }
-        });
 
-        tfEpost.setEditable(false);
-        tfEpost.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tfEpostMouseClicked(evt);
-            }
-        });
-
-        tfTelefonnummer.setEditable(false);
-        tfTelefonnummer.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tfTelefonnummerMouseClicked(evt);
-            }
-        });
-
-        tfStad.setEditable(false);
-        tfStad.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tfStadMouseClicked(evt);
-            }
-        });
-
-        tfAvdelningschefID.setEditable(false);
-        tfAvdelningschefID.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tfAvdelningschefIDMouseClicked(evt);
-            }
-        });
-
-        tfID.setEditable(false);
-        tfID.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tfIDMouseClicked(evt);
-            }
-        });
         tfID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfIDActionPerformed(evt);
@@ -379,51 +354,6 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
                 System.out.println(ex);
         }
     }//GEN-LAST:event_btnLaggTillActionPerformed
-
-    private void tfNamnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNamnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfNamnActionPerformed
-
-    private void tfIDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfIDMouseClicked
-        tfID.setEditable(true);
-        tfID.setText("");
-    }//GEN-LAST:event_tfIDMouseClicked
-
-    private void tfNamnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfNamnMouseClicked
-        tfNamn.setEditable(true);
-        tfNamn.setText("");
-    }//GEN-LAST:event_tfNamnMouseClicked
-
-    private void tfBeskrivningMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfBeskrivningMouseClicked
-        tfBeskrivning.setEditable(true);
-        tfBeskrivning.setText("");
-    }//GEN-LAST:event_tfBeskrivningMouseClicked
-
-    private void tfAdressMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfAdressMouseClicked
-        tfAdress.setEditable(true);
-        tfAdress.setText("");
-    }//GEN-LAST:event_tfAdressMouseClicked
-
-    private void tfEpostMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfEpostMouseClicked
-        tfEpost.setEditable(true);
-        tfEpost.setText("");
-    }//GEN-LAST:event_tfEpostMouseClicked
-
-    private void tfTelefonnummerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfTelefonnummerMouseClicked
-        tfTelefonnummer.setEditable(true);
-        tfTelefonnummer.setText("");
-    }//GEN-LAST:event_tfTelefonnummerMouseClicked
-
-    private void tfStadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfStadMouseClicked
-        tfStad.setEditable(true);
-        tfStad.setText("");
-    }//GEN-LAST:event_tfStadMouseClicked
-
-    private void tfAvdelningschefIDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfAvdelningschefIDMouseClicked
-        tfAvdelningschefID.setEditable(true);
-        tfAvdelningschefID.setText("");
-    }//GEN-LAST:event_tfAvdelningschefIDMouseClicked
-
     private void tfIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfIDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfIDActionPerformed
@@ -467,6 +397,8 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
     private javax.swing.JButton btnLaggTill;
     private javax.swing.JButton btnTillbaka;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblAdress;
     private javax.swing.JLabel lblAvdelningschefID;
     private javax.swing.JLabel lblBeskrivning;
