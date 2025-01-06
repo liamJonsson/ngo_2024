@@ -9,6 +9,7 @@ import java.lang.NumberFormatException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.text.ParseException;
+import java.util.Random;
 /**
 /**
  *
@@ -26,6 +27,10 @@ public class LaggTillAnstalld extends javax.swing.JFrame {
         this.idb = idb;
         this.inloggadAnvandare = inloggadAnvandare;
         initComponents();
+        lblFelID.setVisible(false); //Felmeddelanden som inte syns till en början
+        lblFelEpost.setVisible(false); 
+        lblFelAnstDatum.setVisible(false); 
+        lblFelAvdelning.setVisible(false); 
     }
 
     /**
@@ -39,6 +44,7 @@ public class LaggTillAnstalld extends javax.swing.JFrame {
 
         tfID = new javax.swing.JTextField();
         btnTillbaka = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         lblAllaAnstallda = new javax.swing.JLabel();
         lblID = new javax.swing.JLabel();
         lblNamn = new javax.swing.JLabel();
@@ -61,6 +67,10 @@ public class LaggTillAnstalld extends javax.swing.JFrame {
         btnSlumpaLosenord = new javax.swing.JButton();
         lblNamn1 = new javax.swing.JLabel();
         tfAnstallningsEfternamn = new javax.swing.JTextField();
+        lblFelID = new javax.swing.JLabel();
+        lblFelEpost = new javax.swing.JLabel();
+        lblFelAnstDatum = new javax.swing.JLabel();
+        lblFelAvdelning = new javax.swing.JLabel();
 
         btnTillbaka.setText("Tillbaka");
         btnTillbaka.addActionListener(new java.awt.event.ActionListener() {
@@ -68,6 +78,8 @@ public class LaggTillAnstalld extends javax.swing.JFrame {
                 btnTillbakaActionPerformed(evt);
             }
         });
+
+        jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -97,14 +109,14 @@ public class LaggTillAnstalld extends javax.swing.JFrame {
             }
         });
 
-        btnLaggTill.setText("Lägg till");
+        btnLaggTill.setText("Spara");
         btnLaggTill.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLaggTillActionPerformed(evt);
             }
         });
 
-        btnSlumpaLosenord.setText("OBS slumpa losen???!!!");
+        btnSlumpaLosenord.setText("Slumpa Lösenord");
         btnSlumpaLosenord.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSlumpaLosenordActionPerformed(evt);
@@ -113,58 +125,80 @@ public class LaggTillAnstalld extends javax.swing.JFrame {
 
         lblNamn1.setText("Efternamn");
 
+        lblFelID.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lblFelID.setForeground(new java.awt.Color(255, 0, 0));
+        lblFelID.setText("ID:t existerar redan");
+
+        lblFelEpost.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lblFelEpost.setForeground(new java.awt.Color(255, 0, 0));
+        lblFelEpost.setText("Vänligen fyll i en giltig epostadress");
+
+        lblFelAnstDatum.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lblFelAnstDatum.setForeground(new java.awt.Color(255, 0, 0));
+        lblFelAnstDatum.setText("Vänligen använd ett korrekt datumformat");
+
+        lblFelAvdelning.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lblFelAvdelning.setForeground(new java.awt.Color(255, 0, 0));
+        lblFelAvdelning.setText("Avdelningen finns ej");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblAllaAnstallda)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnSlumpaLosenord)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnLaggTill)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnTillbaka1))
+                            .addComponent(btnSlumpaLosenord)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblTelefonnummer)
                                     .addComponent(lblEpost)
                                     .addComponent(lblLosenord)
                                     .addComponent(lblAnstallningsDatum)
-                                    .addComponent(lblAvdelning)
                                     .addComponent(lblAdress)
                                     .addComponent(lblNamn1)
                                     .addComponent(lblNamn)
-                                    .addComponent(lblID))
+                                    .addComponent(lblID)
+                                    .addComponent(lblAvdelning))
                                 .addGap(35, 35, 35)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(tfAnstallningsID)
-                                    .addComponent(tfAnstallningsFornamn)
-                                    .addComponent(tfAnstallningsEfternamn)
-                                    .addComponent(tfAnstallningsAdress)
-                                    .addComponent(tfAnstallningsLosenord, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(tfAnstallningsTelefonnummer, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(tfAnstallningsDatum, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 6, Short.MAX_VALUE))
-                                    .addComponent(tfAnstallningsAvdelning)
-                                    .addComponent(tfAnstallningsEpost, javax.swing.GroupLayout.Alignment.TRAILING))))
-                        .addGap(39, 39, 39)))
-                .addContainerGap())
+                                    .addComponent(lblFelID)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(42, 42, 42)
+                                            .addComponent(btnLaggTill)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                                            .addComponent(btnTillbaka1))
+                                        .addComponent(tfAnstallningsEfternamn, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(tfAnstallningsAdress, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(tfAnstallningsEpost, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(tfAnstallningsTelefonnummer, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(tfAnstallningsDatum, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(tfAnstallningsAvdelning)
+                                        .addComponent(tfAnstallningsFornamn, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(tfAnstallningsID, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(tfAnstallningsLosenord, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addComponent(lblFelEpost)
+                                    .addComponent(lblFelAnstDatum)
+                                    .addComponent(lblFelAvdelning))))
+                        .addContainerGap(48, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblAllaAnstallda)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(30, 30, 30)
                 .addComponent(lblAllaAnstallda)
-                .addGap(45, 45, 45)
+                .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblID)
                     .addComponent(tfAnstallningsID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2)
+                .addComponent(lblFelID)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNamn)
@@ -181,14 +215,18 @@ public class LaggTillAnstalld extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEpost)
                     .addComponent(tfAnstallningsEpost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2)
+                .addComponent(lblFelEpost)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTelefonnummer)
                     .addComponent(tfAnstallningsTelefonnummer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAnstallningsDatum)
                     .addComponent(tfAnstallningsDatum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2)
+                .addComponent(lblFelAnstDatum)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblLosenord)
@@ -197,12 +235,14 @@ public class LaggTillAnstalld extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAvdelning)
                     .addComponent(tfAnstallningsAvdelning, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(59, 59, 59)
+                .addGap(2, 2, 2)
+                .addComponent(lblFelAvdelning)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnTillbaka1)
+                    .addComponent(btnSlumpaLosenord)
                     .addComponent(btnLaggTill)
-                    .addComponent(btnSlumpaLosenord))
-                .addGap(27, 27, 27))
+                    .addComponent(btnTillbaka1))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
@@ -221,7 +261,7 @@ public class LaggTillAnstalld extends javax.swing.JFrame {
 
     private void btnLaggTillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaggTillActionPerformed
         try{
-           String textAID = tfAnstallningsID.getText();
+           String textAID = tfAnstallningsID.getText(); 
            String fornamn = tfAnstallningsFornamn.getText();
            String efternamn = tfAnstallningsEfternamn.getText();
            String adress = tfAnstallningsAdress.getText();
@@ -229,28 +269,75 @@ public class LaggTillAnstalld extends javax.swing.JFrame {
            String telefon = tfAnstallningsTelefonnummer.getText();
            String anstallningsDatum = tfAnstallningsDatum.getText();
            String losenord = tfAnstallningsLosenord.getText();
-           String avdelningsID = tfAnstallningsAvdelning.getText(); //Kolla så att det verkligen är en epost-adress!
+           String avdelningsID = tfAnstallningsAvdelning.getText(); 
            
-           int aid = Integer.parseInt(textAID);
-           int avdelning = Integer.parseInt(avdelningsID);
+           int aid = Integer.parseInt(textAID); //Gör om från String till int
+           int avdelning = Integer.parseInt(avdelningsID); //Gör om från String till int
+           
+           
+           //Kollar ifall aid redan finns i databasen
+           String checkaID = "select aid from anstalld where aid = " + aid + ";";
+           String idFinns = idb.fetchSingle(checkaID);
+           
+           //Kollar ifall avdelning redan finns i databasen
+           String checkaAvdid = "select avdelning from anstalld where avdelning = " + avdelning + ";";
+           String avdidFinns = idb.fetchSingle(checkaAvdid);
+           
+           
+           //Ifall idFinns finns i databasen så visas felmeddelandet
+           if(idFinns != null){ 
+               lblFelID.setVisible(true);
+           }
+           
+           //Ifall avdidFinns inte finns i databasen så visas felmeddelandet
+           if(avdidFinns == null) {
+               lblFelAvdelning.setVisible(true);
+           }
            
            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd"); // Konvertera anställningsdatum till rätt format
+           inputFormat.setLenient(false); // Gör parsning strikt
            Date datumString = inputFormat.parse(anstallningsDatum); // Konvertera strängen till ett Date-objekt
            
-           String datum = inputFormat.format(datumString);
+           String datum = inputFormat.format(datumString); // Om allt är OK, formatera datumet och sätt in i databasen
            
            String insertNyAnstalld = "insert into anstalld (aid, fornamn, efternamn, adress, epost, telefon, anstallningsdatum, losenord, avdelning) values (" + aid + ", '" + fornamn + "', '" + efternamn + "', '" + adress + "', '" + epost + "', '" + telefon + "', '" + datum + "', '" + losenord + "', " + avdelning +");";
            idb.insert(insertNyAnstalld);
+           
+           new AllaAnstallda(idb,inloggadAnvandare).setVisible(true);
+           this.setVisible(false);
            }
-        catch(InfException | NumberFormatException | ParseException ex){ //Catch InfExceptions?
+        catch(ParseException ex) {
+            lblFelAnstDatum.setVisible(true); // Visa felmeddelandet om datumformatet är felaktigt
+        }
+        
+        catch(NumberFormatException ex) {
+            lblFelID.setVisible(true); // Om aid inte är ett heltal
+            lblFelAvdelning.setVisible(true); // Om avdid inte är ett heltal
+        }
+        
+        catch(InfException ex){ //Catch InfExceptions?
             System.out.println(ex);
             }
-        new AllaAnstallda(idb,inloggadAnvandare).setVisible(true);
-        this.setVisible(false);
+        
     }//GEN-LAST:event_btnLaggTillActionPerformed
 
     private void btnSlumpaLosenordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSlumpaLosenordActionPerformed
-        // TODO add your handling code here:
+        int langdLosenord = 11; //Längden på lösenordet blir 11
+        
+        //De tecken som kan ingå i lösenordet
+        String allaTecken = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890";
+        StringBuilder slumpatLosenord = new StringBuilder();
+        
+        //Slumpgenerator
+        java.util.Random random = new java.util.Random();
+        
+        //Generera slumpmässigt lösenord
+        for(int i = 0; i < langdLosenord; i++) {
+            int x = random.nextInt(allaTecken.length());
+            slumpatLosenord.append(allaTecken.charAt(x));
+        }
+        
+        tfAnstallningsLosenord.setText(slumpatLosenord.toString());
     }//GEN-LAST:event_btnSlumpaLosenordActionPerformed
 
     
@@ -289,7 +376,7 @@ public class LaggTillAnstalld extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LaggTillAnstalld().setVisible(true);
+              //  new LaggTillAnstalld().setVisible(true);
             }
         });
     }
@@ -299,11 +386,16 @@ public class LaggTillAnstalld extends javax.swing.JFrame {
     private javax.swing.JButton btnSlumpaLosenord;
     private javax.swing.JButton btnTillbaka;
     private javax.swing.JButton btnTillbaka1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblAdress;
     private javax.swing.JLabel lblAllaAnstallda;
     private javax.swing.JLabel lblAnstallningsDatum;
     private javax.swing.JLabel lblAvdelning;
     private javax.swing.JLabel lblEpost;
+    private javax.swing.JLabel lblFelAnstDatum;
+    private javax.swing.JLabel lblFelAvdelning;
+    private javax.swing.JLabel lblFelEpost;
+    private javax.swing.JLabel lblFelID;
     private javax.swing.JLabel lblID;
     private javax.swing.JLabel lblLosenord;
     private javax.swing.JLabel lblNamn;

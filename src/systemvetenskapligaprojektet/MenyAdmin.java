@@ -156,7 +156,7 @@ public class MenyAdmin extends javax.swing.JFrame {
 
     private void btnAllaPartnersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAllaPartnersActionPerformed
        
-        this.setVisible(false);
+        
     }//GEN-LAST:event_btnAllaPartnersActionPerformed
 
     private void btnMinaSidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinaSidorActionPerformed
@@ -171,12 +171,11 @@ public class MenyAdmin extends javax.swing.JFrame {
 
     private void btnAllaProjektActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAllaProjektActionPerformed
         
-        this.setVisible(false);
+        
     }//GEN-LAST:event_btnAllaProjektActionPerformed
 
     private void btnAllaLanderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAllaLanderActionPerformed
-        new AllaLander(idb,inloggadAnvandare).setVisible(true);
-        this.setVisible(false);
+        
     }//GEN-LAST:event_btnAllaLanderActionPerformed
 
     private void btnLoggaUtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoggaUtActionPerformed

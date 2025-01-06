@@ -308,7 +308,7 @@ public class AllaLander extends javax.swing.JFrame {
                         .addComponent(btnRedigera)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnTillbaka)))
-                .addContainerGap(601, Short.MAX_VALUE))
+                .addContainerGap(610, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
