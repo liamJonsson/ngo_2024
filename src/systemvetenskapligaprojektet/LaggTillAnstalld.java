@@ -16,7 +16,6 @@ import java.util.Random;
  * @author lisas
  */
 public class LaggTillAnstalld extends javax.swing.JFrame {
-    
     private InfDB idb;
     private String inloggadAnvandare;
 
