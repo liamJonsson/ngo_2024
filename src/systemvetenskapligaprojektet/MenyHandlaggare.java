@@ -127,7 +127,7 @@ public class MenyHandlaggare extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMinaSidorActionPerformed
 
     private void btnMinaProjektActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinaProjektActionPerformed
-        new MinaProjekt(idb).setVisible(true);
+        new MinaProjekt(idb, inloggadAnvandare).setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnMinaProjektActionPerformed
 
