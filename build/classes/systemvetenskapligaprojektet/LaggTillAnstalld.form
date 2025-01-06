@@ -12,6 +12,11 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTillbakaActionPerformed"/>
       </Events>
     </Component>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
@@ -36,64 +41,71 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblAllaAnstallda" min="-2" max="-2" attributes="0"/>
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="btnSlumpaLosenord" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="btnLaggTill" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnTillbaka1" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
+                          <Component id="btnSlumpaLosenord" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="lblTelefonnummer" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblEpost" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblLosenord" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblAnstallningsDatum" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblAvdelning" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblAdress" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblNamn1" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblNamn" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblID" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblAvdelning" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="tfAnstallningsID" max="32767" attributes="0"/>
-                                  <Component id="tfAnstallningsFornamn" max="32767" attributes="0"/>
-                                  <Component id="tfAnstallningsEfternamn" max="32767" attributes="0"/>
-                                  <Component id="tfAnstallningsAdress" max="32767" attributes="0"/>
-                                  <Component id="tfAnstallningsLosenord" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="tfAnstallningsTelefonnummer" alignment="1" max="32767" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="tfAnstallningsDatum" min="-2" pref="298" max="-2" attributes="0"/>
-                                      <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
+                                  <Component id="lblFelID" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                                          <Component id="btnLaggTill" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace pref="88" max="32767" attributes="0"/>
+                                          <Component id="btnTillbaka1" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="tfAnstallningsEfternamn" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="tfAnstallningsAdress" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="tfAnstallningsEpost" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="tfAnstallningsTelefonnummer" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="tfAnstallningsDatum" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="tfAnstallningsAvdelning" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="tfAnstallningsFornamn" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="tfAnstallningsID" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="tfAnstallningsLosenord" alignment="0" max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="tfAnstallningsAvdelning" max="32767" attributes="0"/>
-                                  <Component id="tfAnstallningsEpost" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="lblFelEpost" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblFelAnstDatum" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblFelAvdelning" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                      <EmptySpace pref="48" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="lblAllaAnstallda" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
               <Component id="lblAllaAnstallda" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblID" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="tfAnstallningsID" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+              <Component id="lblFelID" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblNamn" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -114,16 +126,20 @@
                   <Component id="lblEpost" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="tfAnstallningsEpost" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+              <Component id="lblFelEpost" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblTelefonnummer" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="tfAnstallningsTelefonnummer" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblAnstallningsDatum" min="-2" max="-2" attributes="0"/>
-                  <Component id="tfAnstallningsDatum" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblAnstallningsDatum" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tfAnstallningsDatum" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+              <Component id="lblFelAnstDatum" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblLosenord" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -134,13 +150,15 @@
                   <Component id="lblAvdelning" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="tfAnstallningsAvdelning" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+              <Component id="lblFelAvdelning" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnTillbaka1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnLaggTill" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnSlumpaLosenord" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnLaggTill" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnTillbaka1" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+              <EmptySpace pref="18" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -220,7 +238,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnLaggTill">
       <Properties>
-        <Property name="text" type="java.lang.String" value="L&#xe4;gg till"/>
+        <Property name="text" type="java.lang.String" value="Spara"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLaggTillActionPerformed"/>
@@ -228,7 +246,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnSlumpaLosenord">
       <Properties>
-        <Property name="text" type="java.lang.String" value="OBS slumpa losen???!!!"/>
+        <Property name="text" type="java.lang.String" value="Slumpa L&#xf6;senord"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSlumpaLosenordActionPerformed"/>
@@ -240,6 +258,50 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfAnstallningsEfternamn">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblFelID">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="12" style="2"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="0" green="0" red="ff" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="ID:t existerar redan"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblFelEpost">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="12" style="2"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="0" green="0" red="ff" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="V&#xe4;nligen fyll i en giltig epostadress"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblFelAnstDatum">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="12" style="2"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="0" green="0" red="ff" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="V&#xe4;nligen anv&#xe4;nd ett korrekt datumformat"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblFelAvdelning">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="12" style="2"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="0" green="0" red="ff" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Avdelningen finns ej"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
