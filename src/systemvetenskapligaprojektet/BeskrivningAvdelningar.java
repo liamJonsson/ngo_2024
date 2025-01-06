@@ -3,22 +3,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package systemvetenskapligaprojektet;
-import oru.inf.InfDB; //importeras i alla klasser som vi ska använda
-import oru.inf.InfException; //importeras i alla klasser som vi ska använda
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import oru.inf.InfDB;
+import oru.inf.InfException;
 /**
  *
  * @author limme
  */
-public class AllaPartners extends javax.swing.JFrame {
-
-    private static InfDB idb;
+public class BeskrivningAvdelningar extends javax.swing.JFrame {
+    private InfDB idb;
     private String inloggadAnvandare;
     /**
-     * Creates new form AllaPartners
+     * Creates new form BeskrivningAvdelningar
      */
-    public AllaPartners(InfDB idb, String inloggadAnvandare) {
+    public BeskrivningAvdelningar(InfDB idb, String inloggadAnvandare) {
         this.idb = idb;
         this.inloggadAnvandare = inloggadAnvandare;
         initComponents();
@@ -27,14 +28,14 @@ public class AllaPartners extends javax.swing.JFrame {
     
     public void fyllTabell(){
         try{
-        String[] kolumnNamn = {"pid", "namn", "kontaktperson", "kontaktepost", "telefon", "adress", "branch", "stad"};
-        DefaultTableModel allaPartners = new DefaultTableModel(kolumnNamn, 0);
+        String[] kolumnNamn = {"avdid", "beskrivning"};
+        DefaultTableModel allaAvdelningar = new DefaultTableModel(kolumnNamn, 0);
         
-        String selectPID = "select pid from projekt order by(pid);";
-        ArrayList<String> pid = idb.fetchColumn(selectPID);
-            if(pid != null){
-                for(String ettID:pid){
-                    String selectInfo = "select * from partner where pid = " + ettID + ";";
+        String selectAvdid = "select avdid from avdelning order by(avdid);";
+        ArrayList<String> avdid = idb.fetchColumn(selectAvdid);
+            if(avdid != null){
+                for(String ettID:avdid){
+                    String selectInfo = "select avdid,beskrivning from avdelning where avdid = " + ettID + ";";
                     HashMap<String,String> info = idb.fetchRow(selectInfo);
             
                     Object[] enRad = new Object[kolumnNamn.length];
@@ -43,10 +44,15 @@ public class AllaPartners extends javax.swing.JFrame {
                     for(String enKolumn:kolumnNamn){
                         enRad[index++] = info.get(enKolumn);
                     }
-                    allaPartners.addRow(enRad);
+                    allaAvdelningar.addRow(enRad);
                 }
-                tblPartners.setModel(allaPartners);
+                tblBeskrivningAvdelningar.setModel(allaAvdelningar);
             }
+            tblBeskrivningAvdelningar.setAutoResizeMode(tblBeskrivningAvdelningar.AUTO_RESIZE_OFF);
+            TableColumn col = tblBeskrivningAvdelningar.getColumnModel().getColumn(0);
+            col.setPreferredWidth(100);
+            col = tblBeskrivningAvdelningar.getColumnModel().getColumn(1);
+            col.setPreferredWidth(1000);
         }
         catch(InfException ex){
             System.out.println(ex);
@@ -63,27 +69,35 @@ public class AllaPartners extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblPartners = new javax.swing.JTable();
+        tblBeskrivningAvdelningar = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        btnTillbaka = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        tblPartners.setModel(new javax.swing.table.DefaultTableModel(
+        tblBeskrivningAvdelningar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2"
             }
         ));
-        tblPartners.setPreferredSize(new java.awt.Dimension(1600, 250));
-        jScrollPane1.setViewportView(tblPartners);
+        tblBeskrivningAvdelningar.setEnabled(false);
+        jScrollPane1.setViewportView(tblBeskrivningAvdelningar);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Alla Partners");
+        jLabel1.setText("Alla Beskrivningar");
+
+        btnTillbaka.setText("Tillbaka");
+        btnTillbaka.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTillbakaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -92,10 +106,11 @@ public class AllaPartners extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1644, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1188, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addComponent(jLabel1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(btnTillbaka))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -104,13 +119,20 @@ public class AllaPartners extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnTillbaka)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnTillbakaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTillbakaActionPerformed
+        new TestTable(idb,inloggadAnvandare).setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnTillbakaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -129,27 +151,28 @@ public class AllaPartners extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AllaPartners.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BeskrivningAvdelningar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AllaPartners.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BeskrivningAvdelningar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AllaPartners.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BeskrivningAvdelningar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AllaPartners.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BeskrivningAvdelningar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                //new AllaPartners().setVisible(true);
+                //new BeskrivningAvdelningar().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnTillbaka;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblPartners;
+    private javax.swing.JTable tblBeskrivningAvdelningar;
     // End of variables declaration//GEN-END:variables
 }
