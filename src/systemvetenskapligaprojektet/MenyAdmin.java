@@ -150,13 +150,13 @@ public class MenyAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAllaAvdelningarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAllaAvdelningarActionPerformed
-        new AllaAvdelningar(idb,inloggadAnvandare).setVisible(true);
+        new TestTable(idb,inloggadAnvandare).setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnAllaAvdelningarActionPerformed
 
     private void btnAllaPartnersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAllaPartnersActionPerformed
-       
-        
+        new AllaPartners(idb,inloggadAnvandare).setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnAllaPartnersActionPerformed
 
     private void btnMinaSidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinaSidorActionPerformed

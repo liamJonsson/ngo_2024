@@ -89,7 +89,6 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
         lblAvdelningschefID.setText("Avdelningschef");
 
         tfNamn.setEditable(false);
-        tfNamn.setText("Ex. Avdelning för miljöfrågor");
         tfNamn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tfNamnMouseClicked(evt);
@@ -102,7 +101,6 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
         });
 
         tfAdress.setEditable(false);
-        tfAdress.setText("Ex. NGO-gatan 3");
         tfAdress.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tfAdressMouseClicked(evt);
@@ -115,7 +113,6 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
         });
 
         tfBeskrivning.setEditable(false);
-        tfBeskrivning.setText("Ex. Fokuserar på att ta fram metoder för att lösa miljöproblematiken");
         tfBeskrivning.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tfBeskrivningMouseClicked(evt);
@@ -123,7 +120,6 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
         });
 
         tfEpost.setEditable(false);
-        tfEpost.setText("Ex. hej@example.com");
         tfEpost.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tfEpostMouseClicked(evt);
@@ -131,7 +127,6 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
         });
 
         tfTelefonnummer.setEditable(false);
-        tfTelefonnummer.setText("Ex 342-234-2344");
         tfTelefonnummer.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tfTelefonnummerMouseClicked(evt);
@@ -139,7 +134,6 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
         });
 
         tfStad.setEditable(false);
-        tfStad.setText("Ex. 1");
         tfStad.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tfStadMouseClicked(evt);
@@ -147,7 +141,6 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
         });
 
         tfAvdelningschefID.setEditable(false);
-        tfAvdelningschefID.setText("Ex. 1");
         tfAvdelningschefID.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tfAvdelningschefIDMouseClicked(evt);
@@ -155,10 +148,14 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
         });
 
         tfID.setEditable(false);
-        tfID.setText("Ex. 1");
         tfID.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tfIDMouseClicked(evt);
+            }
+        });
+        tfID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfIDActionPerformed(evt);
             }
         });
 
@@ -198,10 +195,9 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(btnLaggTill)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnTillbaka))
@@ -217,22 +213,23 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
                                     .addComponent(lblTel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(tfID)
                                     .addComponent(tfNamn)
                                     .addComponent(tfBeskrivning)
                                     .addComponent(tfAdress)
                                     .addComponent(tfEpost)
                                     .addComponent(tfTelefonnummer)
                                     .addComponent(tfStad)
-                                    .addComponent(tfAvdelningschefID))))
+                                    .addComponent(tfAvdelningschefID)
+                                    .addComponent(tfID, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblFelmeddelandeID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblFelmeddelandeEpost, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblFelmeddelandeTel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblFelmeddelandeStadsID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblFelmeddelandeAvdelningschef, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lblFelmeddelandeAvdelningschef, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                            .addComponent(lblFelmeddelandeID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -287,7 +284,7 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTillbakaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTillbakaActionPerformed
-        new AllaAvdelningar(idb,inloggadAnvandare).setVisible(true);
+        new TestTable(idb,inloggadAnvandare).setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnTillbakaActionPerformed
 
@@ -335,7 +332,6 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
                     }
                 }
                 catch(NumberFormatException ex){
-                    System.out.println("Hej");
                     lblFelmeddelandeStadsID.setVisible(true);
                     hasError = true;
                 }
@@ -375,7 +371,7 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
                         + "(" + avdid + ",'" + namn + "','" + beskrivning + "','" + adress + "','" + epost + "','" + telefon + "',"
                         + stadsID + "," + chefsID + ");";
                 idb.insert(insertNyAvdelning);
-                new AllaAvdelningar(idb,inloggadAnvandare).setVisible(true);
+                new TestTable(idb,inloggadAnvandare).setVisible(true);
                 this.setVisible(false);
             }
         }
@@ -427,6 +423,10 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
         tfAvdelningschefID.setEditable(true);
         tfAvdelningschefID.setText("");
     }//GEN-LAST:event_tfAvdelningschefIDMouseClicked
+
+    private void tfIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfIDActionPerformed
 
     /**
      * @param args the command line arguments
