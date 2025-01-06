@@ -66,7 +66,7 @@ public class MinaSidor extends javax.swing.JFrame {
         
     }
         catch(InfException ex){
-            System.out.println(ex);
+            System.out.println(ex); //Ska det stå ex.getMessage()??
             
         }
     }
