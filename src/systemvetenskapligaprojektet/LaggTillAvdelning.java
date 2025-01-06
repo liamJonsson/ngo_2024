@@ -31,8 +31,12 @@ public class LaggTillAvdelning extends javax.swing.JFrame {
         lblFelmeddelandeTel.setVisible(false);
         lblFelmeddelandeStadsID.setVisible(false);
         lblFelmeddelandeAvdelningschef.setVisible(false);
+        hej();
     }
-
+    
+    public void hej(){
+        System.out.println("hej");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
