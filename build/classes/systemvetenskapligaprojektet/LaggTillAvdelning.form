@@ -26,10 +26,9 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel1" min="-2" pref="226" max="-2" attributes="0"/>
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Component id="btnLaggTill" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="btnTillbaka" min="-2" max="-2" attributes="0"/>
@@ -47,7 +46,6 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="tfID" alignment="0" max="32767" attributes="0"/>
                                   <Component id="tfNamn" alignment="0" max="32767" attributes="0"/>
                                   <Component id="tfBeskrivning" alignment="0" max="32767" attributes="0"/>
                                   <Component id="tfAdress" alignment="0" max="32767" attributes="0"/>
@@ -55,20 +53,22 @@
                                   <Component id="tfTelefonnummer" alignment="0" max="32767" attributes="0"/>
                                   <Component id="tfStad" alignment="0" max="32767" attributes="0"/>
                                   <Component id="tfAvdelningschefID" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="tfID" alignment="0" min="-2" pref="350" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="lblFelmeddelandeID" alignment="0" max="32767" attributes="0"/>
                           <Component id="lblFelmeddelandeEpost" alignment="0" max="32767" attributes="0"/>
                           <Component id="lblFelmeddelandeTel" alignment="0" max="32767" attributes="0"/>
                           <Component id="lblFelmeddelandeStadsID" alignment="0" max="32767" attributes="0"/>
                           <Component id="lblFelmeddelandeAvdelningschef" alignment="0" pref="250" max="32767" attributes="0"/>
+                          <Component id="lblFelmeddelandeID" max="32767" attributes="0"/>
                       </Group>
                   </Group>
+                  <Component id="jLabel1" min="-2" pref="226" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="37" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -184,7 +184,6 @@
     <Component class="javax.swing.JTextField" name="tfNamn">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
-        <Property name="text" type="java.lang.String" value="Ex. Avdelning f&#xf6;r milj&#xf6;fr&#xe5;gor"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tfNamnMouseClicked"/>
@@ -194,7 +193,6 @@
     <Component class="javax.swing.JTextField" name="tfAdress">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
-        <Property name="text" type="java.lang.String" value="Ex. NGO-gatan 3"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tfAdressMouseClicked"/>
@@ -204,7 +202,6 @@
     <Component class="javax.swing.JTextField" name="tfBeskrivning">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
-        <Property name="text" type="java.lang.String" value="Ex. Fokuserar p&#xe5; att ta fram metoder f&#xf6;r att l&#xf6;sa milj&#xf6;problematiken"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tfBeskrivningMouseClicked"/>
@@ -213,7 +210,6 @@
     <Component class="javax.swing.JTextField" name="tfEpost">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
-        <Property name="text" type="java.lang.String" value="Ex. hej@example.com"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tfEpostMouseClicked"/>
@@ -222,7 +218,6 @@
     <Component class="javax.swing.JTextField" name="tfTelefonnummer">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
-        <Property name="text" type="java.lang.String" value="Ex 342-234-2344"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tfTelefonnummerMouseClicked"/>
@@ -231,7 +226,6 @@
     <Component class="javax.swing.JTextField" name="tfStad">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
-        <Property name="text" type="java.lang.String" value="Ex. 1"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tfStadMouseClicked"/>
@@ -240,7 +234,6 @@
     <Component class="javax.swing.JTextField" name="tfAvdelningschefID">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
-        <Property name="text" type="java.lang.String" value="Ex. 1"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tfAvdelningschefIDMouseClicked"/>
@@ -249,10 +242,10 @@
     <Component class="javax.swing.JTextField" name="tfID">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
-        <Property name="text" type="java.lang.String" value="Ex. 1"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tfIDMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfIDActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnLaggTill">
