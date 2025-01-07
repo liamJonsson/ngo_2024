@@ -3,14 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package systemvetenskapligaprojektet;
-import oru.inf.InfDB; //importeras i alla klasser som vi ska använda
-import oru.inf.InfException; //importeras i alla klasser som vi ska använda
+import java.util.ArrayList;
+import java.util.HashMap;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import oru.inf.InfDB;
+import oru.inf.InfException;
+
 /**
  *
  * @author mejaa
  */
-public class AvdelningensProjekt extends javax.swing.JFrame {
-    private static InfDB idb;
+
+    public class AvdelningensProjekt extends javax.swing.JFrame {
+    private InfDB idb;
     private String inloggadAnvandare;
     /**
      * Creates new form AvdelningensProjekt
@@ -19,6 +25,116 @@ public class AvdelningensProjekt extends javax.swing.JFrame {
         this.idb = idb;
         this.inloggadAnvandare = inloggadAnvandare;
         initComponents();
+        fyllTabell();
+        hamtaAvdelning();
+    }
+    
+    private void fyllTabell(){
+
+        try{
+
+        String[] kolumnNamn = {"pid", "projektnamn", "beskrivning", "startdatum", "slutdatum", "status", "prioritet","projektchef", "land"};
+
+        DefaultTableModel allaProjekt = new DefaultTableModel(kolumnNamn, 0);
+
+       
+
+        String selectId = "select pid from projekt order by(pid);";
+
+        ArrayList<String> pid = idb.fetchColumn(selectId);
+
+            if(pid != null){
+            //FIXA UNDER!!!!!
+                for(String ettID:pid){
+                    String selectInfo = "select pid,projektnamn,beskrivning,startdatum,slutdatum,status, prioritet,projektchef,land from projekt where pid in(select pid from ans_proj where aid in(select aid from anstalld where avdelning = (select avdelning from anstalld where epost = '" + inloggadAnvandare + "')))";
+
+                    ArrayList<HashMap<String,String>> info = idb.fetchRows(selectInfo);
+
+                    Object[] enRad = new Object[kolumnNamn.length];
+                    int index = 0;
+
+                    for(String enKolumn:kolumnNamn){
+                        
+                        if(enKolumn.equals("projektchef")){
+                            String selectFornamn = "select fornamn from anstalld where aid = (select projektchef from projekt where pid = " + ettID + ");";
+                            String fornamn = idb.fetchSingle(selectFornamn);
+                            String selectEfternamn = "select efternamn from anstalld where aid = (select projektchef from projekt where pid = " + ettID + ");";
+                            String efternamn = idb.fetchSingle(selectEfternamn);
+                            String namn = fornamn + " " + efternamn;
+                            enRad[index++] = namn;
+                            
+                        }
+                        
+                        else{
+                            enRad[index++] = info.get(enKolumn);
+                        }
+                    }
+
+                    allaProjekt.addRow(enRad);
+
+                }
+
+                tblProjekt.setModel(allaProjekt);
+
+            }
+
+            tblProjekt.setAutoResizeMode(tblProjekt.AUTO_RESIZE_OFF);
+
+        TableColumn col = tblProjekt.getColumnModel().getColumn(0);
+
+        col.setPreferredWidth(50);
+
+        col = tblProjekt.getColumnModel().getColumn(1);
+
+        col.setPreferredWidth(100);
+
+        col = tblProjekt.getColumnModel().getColumn(2);
+
+        col.setPreferredWidth(250);
+
+        col = tblProjekt.getColumnModel().getColumn(3);
+
+        col.setPreferredWidth(100);
+
+        col = tblProjekt.getColumnModel().getColumn(4);
+
+        col.setPreferredWidth(100);
+        
+        
+        col = tblProjekt.getColumnModel().getColumn(5);
+
+        col.setPreferredWidth(100);
+        
+        col = tblProjekt.getColumnModel().getColumn(6);
+
+        col.setPreferredWidth(100);
+        
+        col = tblProjekt.getColumnModel().getColumn(7);
+
+        col.setPreferredWidth(150);
+        
+        col = tblProjekt.getColumnModel().getColumn(8);
+
+        col.setPreferredWidth(50);
+        }
+
+        catch(InfException ex){
+            System.out.println(ex);
+        }      
+
+    }
+    
+    private void hamtaAvdelning(){
+        try{
+        String selectAvdelning = "select namn from avdelning where avdid =(select avdelning from anstalld where epost ='" + inloggadAnvandare + "');";
+        String Avdelning = idb.fetchSingle(selectAvdelning);
+        lblAvdelning.setText(Avdelning);
+        }
+        
+        catch(InfException ex){
+
+            System.out.println(ex);
+        }
     }
 
     /**
@@ -30,21 +146,81 @@ public class AvdelningensProjekt extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblProjekt = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        lblAvdelning = new javax.swing.JLabel();
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        tblProjekt.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8", "Title 9"
+            }
+        ));
+        jScrollPane1.setViewportView(tblProjekt);
+
+        jButton1.setText("Tillbaka");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setText("Projekt på");
+
+        lblAvdelning.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblAvdelning.setText("jLabel2");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1003, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblAvdelning, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(lblAvdelning))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        new MinAvdelning(idb,inloggadAnvandare).setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -82,5 +258,11 @@ public class AvdelningensProjekt extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblAvdelning;
+    private javax.swing.JTable tblProjekt;
     // End of variables declaration//GEN-END:variables
 }
