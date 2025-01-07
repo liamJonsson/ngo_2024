@@ -24,6 +24,7 @@ public class AvdelningensAnstallda extends javax.swing.JFrame {
         this.inloggadAnvandare = inloggadAnvandare;
         initComponents();
         fyllTabell();
+        hamtaAvdelning();
     }
     
     private void fyllTabell(){
@@ -75,11 +76,11 @@ public class AvdelningensAnstallda extends javax.swing.JFrame {
 
         col = tblAnstallda.getColumnModel().getColumn(1);
 
-        col.setPreferredWidth(150);
+        col.setPreferredWidth(180);
 
         col = tblAnstallda.getColumnModel().getColumn(2);
 
-        col.setPreferredWidth(150);
+        col.setPreferredWidth(170);
 
         col = tblAnstallda.getColumnModel().getColumn(3);
 
@@ -97,6 +98,20 @@ public class AvdelningensAnstallda extends javax.swing.JFrame {
         }      
 
     }
+    
+    private void hamtaAvdelning(){
+        try{
+        String selectAvdelning = "select namn from avdelning where avdid =(select avdelning from anstalld where epost ='" + inloggadAnvandare + "');";
+        String Avdelning = idb.fetchSingle(selectAvdelning);
+        lblAvdelning.setText(Avdelning);
+        }
+        
+        catch(InfException ex){
+
+            System.out.println(ex);
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -111,6 +126,8 @@ public class AvdelningensAnstallda extends javax.swing.JFrame {
         tblAnstallda = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        lblAvdelning = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -125,10 +142,10 @@ public class AvdelningensAnstallda extends javax.swing.JFrame {
                 "ID", "Förnamn", "Efternamn", "Epost", "Telefonnummer"
             }
         ));
+        tblAnstallda.setEnabled(false);
         jScrollPane1.setViewportView(tblAnstallda);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel1.setText("Anställda på avdelning");
 
         jButton1.setText("Tillbaka");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -137,6 +154,12 @@ public class AvdelningensAnstallda extends javax.swing.JFrame {
             }
         });
 
+        lblAvdelning.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblAvdelning.setText("jLabel2");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel2.setText("Anställda på");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -144,21 +167,27 @@ public class AvdelningensAnstallda extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 820, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblAvdelning, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(24, 24, 24))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(lblAvdelning)
+                    .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -212,7 +241,9 @@ public class AvdelningensAnstallda extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblAvdelning;
     private javax.swing.JTable tblAnstallda;
     // End of variables declaration//GEN-END:variables
 }

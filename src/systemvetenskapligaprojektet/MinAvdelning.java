@@ -341,7 +341,7 @@ public class MinAvdelning extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTillbakaActionPerformed
 
     private void btnProjektActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProjektActionPerformed
-        new AvdelningensProjekt(idb, inloggadAnvandare).setVisible(true);
+        new AvdelningensProjekt(idb,inloggadAnvandare).setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnProjektActionPerformed
 

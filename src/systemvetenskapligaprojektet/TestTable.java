@@ -85,6 +85,7 @@ public class TestTable extends javax.swing.JFrame {
             col.setPreferredWidth(150);
             col = tblTest.getColumnModel().getColumn(7);
             col.setPreferredWidth(150);
+            
         }
         catch(InfException ex){
             System.out.println(ex);
