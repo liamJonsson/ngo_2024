@@ -254,13 +254,11 @@ public class RedigeraAvdelning extends javax.swing.JFrame {
                         }
                     }
                     if(!hittad){
-                        System.out.println("Hej");
                         lblFelmeddelandeStad.setVisible(true);
                         hasError = true;
                     }
                 }
                 catch(NumberFormatException ex){
-                    System.out.println("H");
                     lblFelmeddelandeStad.setVisible(true);
                     hasError = true;
                 }
@@ -268,7 +266,7 @@ public class RedigeraAvdelning extends javax.swing.JFrame {
             if(!hasError){
                 try{
                     hittad = false;
-                    chef = tfID.getText();
+                    chef = tfChef.getText();
                     String selectAllaHandlaggare = "select aid from handlaggare;";
                     ArrayList<String> allaHandlaggare = idb.fetchColumn(selectAllaHandlaggare);
                     if(!chef.isEmpty()){
@@ -323,7 +321,6 @@ public class RedigeraAvdelning extends javax.swing.JFrame {
                     }
                     if(namn.isEmpty()){
                         namn = enRad[1];
-                        System.out.println(namn);
                     }
                     if(beskrivning.isEmpty()){
                         beskrivning = enRad[2];
